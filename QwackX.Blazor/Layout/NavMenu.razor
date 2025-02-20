@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using QwackX.Blazor.Domain.Services
+@inject AuthService authService
+@inject NavigationManager navigation
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">QwackX.Blazor</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -24,17 +28,73 @@
         @*         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather *@
         @*     </NavLink> *@
         @* </div> *@
+        @* <div class="nav-item px-3"> *@
+        @*     @if (_isAuthenticated) *@
+        @*     { *@
+        @*         <span class="text-light me-3">Hello, @_username!</span> *@
+        @*         <button class="btn btn-danger me-3" @onclick="SignOut">Sign-Out</button> *@
+        @*     } *@
+        @*     else *@
+        @*     { *@
+        @*         <button class="btn btn-primary me-3" @onclick="SignIn">Sign-In</button> *@
+        @*     } *@
+        @* </div> *@
+        <div class="nav-item px-3">
+            @if (_isAuthenticated)
+            {
+                <span class="text-light me-3">Hello, @_username!</span>
+                <button class="btn btn-danger me-3" @onclick="SignOut">Se déconnecter</button>
+            }
+            else
+            {
+                <button class="btn btn-primary me-3" @onclick="GoToLogin">Se connecter</button>
+            }
+        </div>
+
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool _isAuthenticated = false;
+    private string? _username;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    
+    private void GoToLogin()
+    {
+        navigation.NavigateTo("/auth");
+    }
+    
+    private async Task SignIn()
+    {
+        // Simule une connexion avec un utilisateur ID=1 et un username "TestUser"
+        await authService.SignIn(1, "TestUser");
+        await LoadUser();
+    }
+
+    private async Task SignOut()
+    {
+        await authService.SignOut();
+        await LoadUser();
+    }
+
+    private async Task LoadUser()
+    {
+        var (userId, username) = await authService.GetUser();
+        _isAuthenticated = userId.HasValue;
+        _username = username;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUser();
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
-
 }

@@ -12,7 +12,6 @@ namespace QwackX.Blazor.Domain.Services
     public class UserService : IUserRepository
     {
         private readonly HttpClient _httpClient;
-        private IUserRepository _userRepositoryImplementation;
 
         public UserService(IHttpClientFactory httpClientFactory)
         {
@@ -41,6 +40,30 @@ namespace QwackX.Blazor.Domain.Services
             catch (Exception ex)
             {
                 return Result<IEnumerable<User>>.Failure(ex.Message, ex);
+            }
+        }
+        
+        public async Task<Result<User>> ExecuteAsync(DetailUserQuery query)
+        {
+            try
+            {
+                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync($"api/user/{query.Id}"))
+                {
+                    if (!responseMessage.IsSuccessStatusCode)
+                    {
+                        return Result<User>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}");
+                    }
+
+                    string json = await responseMessage.Content.ReadAsStringAsync();
+
+                    User _user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
+
+                    return Result<User>.Success(_user);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result<User>.Failure(ex.Message, ex);
             }
         }
 
@@ -98,30 +121,6 @@ namespace QwackX.Blazor.Domain.Services
             catch (Exception ex)
             {
                 return Result.Failure(ex.Message, ex);
-            }
-        }
-
-        public async Task<Result<User>> ExecuteAsync(DetailUserQuery query)
-        {
-            try
-            {
-                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync($"api/user/{query.Id}"))
-                {
-                    if (!responseMessage.IsSuccessStatusCode)
-                    {
-                        return Result<User>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}");
-                    }
-
-                    string json = await responseMessage.Content.ReadAsStringAsync();
-
-                    User _user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
-
-                    return Result<User>.Success(_user);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Result<User>.Failure(ex.Message, ex);
             }
         }
     }

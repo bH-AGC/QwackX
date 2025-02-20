@@ -7,13 +7,13 @@ public class EditUserCommand : ICommandDefinition
     public int Id { get; }
     public string Username { get; }
     public string Email { get; }
-    public string PasswordHash { get; }
+    public string Password { get; }
 
-    public EditUserCommand(int id, string username, string email, string passwordHash)
+    public EditUserCommand(int id, string username, string email, string password)
     {
         Id = id;
         Username = username;
         Email = email;
-        PasswordHash = passwordHash;
+        Password = password;
     }
 }

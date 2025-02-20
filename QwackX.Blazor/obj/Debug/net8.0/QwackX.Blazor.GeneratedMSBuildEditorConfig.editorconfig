@@ -26,24 +26,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/CreateUser.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ3JlYXRlVXNlci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/DetailUser.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGV0YWlsVXNlci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/EditUser.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFVzZXIucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Users.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMucmF6b3I=
+[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Security/Auth.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2VjdXJpdHkvQXV0aC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Users/CreateUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvQ3JlYXRlVXNlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Users/DetailUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvRGV0YWlsVXNlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Users/EditUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvRWRpdFVzZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/Pages/Users/Users.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvVXNlcnMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/_Imports.razor]

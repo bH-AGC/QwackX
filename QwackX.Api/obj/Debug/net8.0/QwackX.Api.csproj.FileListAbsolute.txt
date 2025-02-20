@@ -81,3 +81,5 @@
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api/obj/Debug/net8.0/QwackX.Api.pdb
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api/obj/Debug/net8.0/QwackX.Api.genruntimeconfig.cache
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api/obj/Debug/net8.0/ref/QwackX.Api.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api/obj/Debug/net8.0/QwackX.Api.sourcelink.json
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api/bin/Debug/net8.0/BCrypt.Net.dll

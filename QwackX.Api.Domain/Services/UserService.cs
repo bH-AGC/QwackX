@@ -9,22 +9,15 @@ using QwackX.Api.Domain.Repositories;
 
 namespace QwackX.Api.Domain.Services;
 
-public class UserServices : IUserRepository
+public class UserService : BaseRepository, IUserRepository
 {
-    private readonly DbConnection _dbConnection;
-    private IUserRepository _userRepositoryImplementation;
-
-    public UserServices (DbConnection dbConnection)
-    {
-        _dbConnection = dbConnection;
-        _dbConnection.Open();
-    }
+    public UserService(DbConnection dbConnection) : base(dbConnection) { }
     
     public Result<IEnumerable<User>> Execute(ListUsersQuery query)
     {
         try
         {
-            IEnumerable<User> users = _dbConnection.ExecuteReader("[AppUserSchema].[ListUsers]", dr => dr.ToUser(), true);
+            IEnumerable<User> users = DbConnection.ExecuteReader("[AppUserSchema].[ListUsers]", dr => dr.ToUser(), true);
 
             if (users.Any())
             {
@@ -45,7 +38,7 @@ public class UserServices : IUserRepository
     {
         try
         {
-            User? user = _dbConnection.ExecuteReader("[AppUserSchema].[DetailUser]", dr => dr.ToUser(), true, query).SingleOrDefault();
+            User? user = DbConnection.ExecuteReader("[AppUserSchema].[DetailUser]", dr => dr.ToUser(), true, query).SingleOrDefault();
 
             if (user is null)
             {
@@ -66,7 +59,7 @@ public class UserServices : IUserRepository
     {
         try
         {
-            int responseMessage = _dbConnection.ExecuteNonQuery("[AppUserSchema].[CreateUser]", true, command);
+            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[CreateUser]", true, command);
 
             if (responseMessage == 1)
             {
@@ -85,7 +78,7 @@ public class UserServices : IUserRepository
     {
         try
         {
-            int responseMessage = _dbConnection.ExecuteNonQuery("[AppUserSchema].[EditUser]", true, command);
+            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[EditUser]", true, command);
 
             if (responseMessage == 1)
             {
@@ -104,7 +97,7 @@ public class UserServices : IUserRepository
     {
         try
         {
-            int responseMessage = _dbConnection.ExecuteNonQuery("[AppUserSchema].[DeleteUser]", true, command);
+            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[DeleteUser]", true, command);
 
             if (responseMessage == 1)
             {

@@ -23,7 +23,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DbConnection>(sp => new SqlConnection(configuration.GetConnectionString("Database")));
-builder.Services.AddScoped<IUserRepository, UserServices>();
+builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IAuthRepository, AuthService>();
 
 WebApplication app = builder.Build();
 

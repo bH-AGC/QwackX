@@ -15,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/DetailUser.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/EditUser.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/ListUsers.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/LoginUser.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Security/Roles/AppUserRole.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Security/Schemas/AppUserSchema.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Likes.sql" dialect="TSQL" />

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "nGvpS3x/zvk=",
+  "dgSpecHash": "DYY3DuWzO/A=",
   "success": true,
   "projectFilePath": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/QwackX.Blazor.csproj",
   "expectedPackageFiles": [
+    "/Users/agcwork/.nuget/packages/blazored.localstorage/4.5.0/blazored.localstorage.4.5.0.nupkg.sha512",
     "/Users/agcwork/.nuget/packages/commandqueryseparation/1.0.1/commandqueryseparation.1.0.1.nupkg.sha512",
     "/Users/agcwork/.nuget/packages/microsoft.aspnetcore.authorization/8.0.10/microsoft.aspnetcore.authorization.8.0.10.nupkg.sha512",
     "/Users/agcwork/.nuget/packages/microsoft.aspnetcore.components/8.0.10/microsoft.aspnetcore.components.8.0.10.nupkg.sha512",

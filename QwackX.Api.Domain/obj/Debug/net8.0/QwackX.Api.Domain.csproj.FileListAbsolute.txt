@@ -10,3 +10,4 @@
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/refint/QwackX.Api.Domain.dll
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.pdb
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/ref/QwackX.Api.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.sourcelink.json

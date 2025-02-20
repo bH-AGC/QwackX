@@ -1,0 +1,51 @@
+@page "/auth"
+@using System.ComponentModel.DataAnnotations
+@using QwackX.Blazor.Domain.Services
+@inject AuthService authService
+@inject NavigationManager navigation
+
+<h3>Se connecter</h3>
+
+<EditForm Model="@form" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Email">Email :</label>
+        <InputText id="Email" @bind-Value="form.Email" class="form-control" />
+        <ValidationMessage For="() => form.Email" />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Mot de passe :</label>
+        <InputText id="Password" type="password" @bind-Value="form.Password" class="form-control" />
+        <ValidationMessage For="() => form.Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Se connecter</button>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger mt-2">@errorMessage</div>
+    }
+</EditForm>
+
+@code {
+    private LoginUserForm form = new LoginUserForm();
+    private string? errorMessage;
+
+    private async Task OnSubmit()
+    {
+        var result = await authService.ValidateUserCredentialsAsync(form.Email, form.Password);
+
+        if (result.IsSuccess)
+        {
+            await authService.SignIn(result.Content.Id, result.Content.Username);
+            navigation.NavigateTo("/home", true);
+        }
+        else
+        {
+            errorMessage = "Nom d'utilisateur ou mot de passe incorrect";
+        }
+    }
+}

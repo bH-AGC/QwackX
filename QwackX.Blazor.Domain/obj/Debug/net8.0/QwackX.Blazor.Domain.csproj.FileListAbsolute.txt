@@ -10,3 +10,4 @@
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/refint/QwackX.Blazor.Domain.dll
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.pdb
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/ref/QwackX.Blazor.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.sourcelink.json

@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using QwackX.Blazor;
@@ -13,8 +14,10 @@ builder.Services.AddHttpClient("Default", client =>
     client.BaseAddress = new Uri("http://localhost:5185/");
 });
 
-builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddScoped<IUserRepository, UserService>();
 
 // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

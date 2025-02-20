@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "J1nN0kEPP7zMVMRgA/4b1xmVYxtXucxYgOjNFDID1oU=",
+  "Hash": "I2ZcoU1NWt6uRMEzD5XFyZ/Gyu9fYOtmV2KrMJLEP6k=",
   "Source": "QwackX.Blazor",
   "BasePath": "/",
   "Mode": "Root",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/agcwork/.nuget/packages/microsoft.aspnetcore.components.webassembly/8.0.10/build/net8.0/blazor.webassembly.js"
+    },
+    {
+      "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/Blazored.LocalStorage.wasm",
+      "SourceId": "QwackX.Blazor",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/Blazored.LocalStorage.wasm",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/webcil/Blazored.LocalStorage.wasm"
     },
     {
       "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/CommandQuerySeparation.wasm",
@@ -5202,6 +5221,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/System.Runtime.Serialization.wasm"
+    },
+    {
+      "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/arxdbjh866.gz",
+      "SourceId": "QwackX.Blazor",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/Blazored.LocalStorage.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/Blazored.LocalStorage.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/Blazored.LocalStorage.wasm"
     },
     {
       "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/arz9no6fle.gz",

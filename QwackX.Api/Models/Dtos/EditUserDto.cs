@@ -17,5 +17,5 @@ public class EditUserDto
 
     [Required]
     [StringLength(255, MinimumLength = 6)]
-    public string PasswordHash { get; set; } = default!;
+    public string Password { get; set; } = default!;
 }

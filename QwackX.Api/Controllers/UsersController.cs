@@ -56,9 +56,12 @@ namespace QwackX.Api.Controllers
         [HttpPost]
         public IActionResult Post(AddUserDto dto)
         {
-            var command = new AddUserCommand(dto.Username, dto.Email, dto.PasswordHash);
+            // Hachage du mot de passe
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+            var command = new AddUserCommand(dto.Username, dto.Email, hashedPassword);
             var result = _repository.Execute(command);
-            
+    
             if (result.IsFailure)
                 return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
 
@@ -70,7 +73,9 @@ namespace QwackX.Api.Controllers
         [HttpPatch]
         public IActionResult Put(EditUserDto dto)
         {
-            var result = _repository.Execute(new EditUserCommand(dto.Id, dto.Username, dto.Email, dto.PasswordHash));
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            
+            var result = _repository.Execute(new EditUserCommand(dto.Id, dto.Username, dto.Email, hashedPassword));
             if(result.IsFailure)
                 return BadRequest(dto);
 
@@ -84,9 +89,10 @@ namespace QwackX.Api.Controllers
             var result = _repository.Execute(new DeleteUserCommand(id));
 
             if (result.IsFailure)
-                return BadRequest(result.ErrorMessage);
+                return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+            ;
 
-            return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+            return NoContent();
         }
     }
 }

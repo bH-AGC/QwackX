@@ -1063,3 +1063,9 @@
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/refint/QwackX.Blazor.dll
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/QwackX.Blazor.pdb
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/ref/QwackX.Blazor.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/Blazored.LocalStorage.wasm
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/Blazored.LocalStorage.wasm.gz
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/Blazored.LocalStorage.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/QwackX.Blazor.sourcelink.json
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/webcil/Blazored.LocalStorage.wasm
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/arxdbjh866.gz
