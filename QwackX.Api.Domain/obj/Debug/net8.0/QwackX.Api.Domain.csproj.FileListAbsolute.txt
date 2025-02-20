@@ -1,0 +1,12 @@
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/bin/Debug/net8.0/QwackX.Api.Domain.deps.json
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/bin/Debug/net8.0/QwackX.Api.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/bin/Debug/net8.0/QwackX.Api.Domain.pdb
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.csproj.AssemblyReference.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.AssemblyInfoInputs.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.AssemblyInfo.cs
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.csproj.CoreCompileInputs.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/refint/QwackX.Api.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/QwackX.Api.Domain.pdb
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/Debug/net8.0/ref/QwackX.Api.Domain.dll

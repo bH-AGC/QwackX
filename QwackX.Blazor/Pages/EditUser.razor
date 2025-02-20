@@ -1,0 +1,76 @@
+@inject ILogger<EditUser> logger
+@inject IUserRepository userRepository
+@inject NavigationManager navigation
+
+@page "/users/edit/{Id:int}"
+
+<h3>Modifier un Utilisateur</h3>
+
+@if (_message is not null)
+{
+    <h3 class="text-danger">@_message</h3>
+}
+
+<EditForm Model="Form" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div>
+        <label for="Username">Nom d'utilisateur :</label>
+        <InputText id="Username" @bind-Value="Form.Username" class="form-control" />
+        <ValidationMessage For="() => Form.Username" />
+    </div>
+    <div>
+        <label for="Email">Email :</label>
+        <InputText id="Email" @bind-Value="Form.Email" class="form-control" />
+        <ValidationMessage For="() => Form.Email" />
+    </div>
+    <div>
+        <label for="Password">Mot de passe :</label>
+        <InputText id="Password" type="password" @bind-Value="Form.Password" class="form-control" />
+        <ValidationMessage For="() => Form.Password" />
+    </div>
+    <div>
+        <input type="submit" value="Modifier" class="btn btn-primary" /> | 
+        <button class="btn btn-secondary" @onclick="OnCancel">Annuler</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private EditUserForm Form { get; } = new();
+    private string? _message = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result<User> queryResult = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
+
+        if (queryResult.IsFailure)
+        {
+            navigation.NavigateTo("/users");
+            return;
+        }
+
+        Form.Username = queryResult.Content.Username;
+        Form.Email = queryResult.Content.Email;
+    }
+
+    private async void OnValidSubmit()
+    {
+        Result result = await userRepository.ExecuteAsync(new EditUserCommand(Id, Form.Username, Form.Email, Form.Password));
+
+        if (result.IsFailure)
+        {
+            logger.LogError($"Erreur : {result.ErrorMessage}");
+            _message = "Une erreur est survenue lors de la modification.";
+            return;
+        }
+
+        navigation.NavigateTo("/users");
+    }
+
+    private void OnCancel()
+    {
+        navigation.NavigateTo("/users");
+    }
+}

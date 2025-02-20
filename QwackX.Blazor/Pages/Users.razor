@@ -1,0 +1,63 @@
+﻿@inject IUserRepository userRepository;
+@inject ILogger<Users> logger;
+@page "/users"
+
+<h3>Utilisateurs</h3>
+
+<a href="/users/create" class="btn btn-primary btn-sm active">Nouvel Utilisateur</a>
+
+@if(_users is not null)
+{
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nom d'utilisateur</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (User user in _users)
+        {
+            <tr>
+                <th scope="row">@user.Id</th>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>
+                    <a href="/users/detail/@(user.Id)" class="btn btn-primary btn-sm active">Détails</a> |
+                    <a href="/users/edit/@(user.Id)" class="btn btn-secondary btn-sm active">Editer</a> |
+                    <a @onclick="() => OnDelete(user)" class="btn btn-danger btn-sm active">Supprimer</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ICollection<User>? _users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result<IEnumerable<User>> queryResult = await userRepository.ExecuteAsync(new ListUsersQuery());
+
+        if (queryResult.IsFailure)
+        {
+            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            return;
+        }
+
+        _users = queryResult.Content.ToList();
+    }
+
+    public async Task OnDelete(User user)
+    {
+        _users!.Remove(user);
+
+        Result result = await userRepository.ExecuteAsync(new DeleteUserCommand(user.Id));
+
+        if (result.IsFailure)
+            logger.LogError(result.ErrorMessage);
+    }
+}

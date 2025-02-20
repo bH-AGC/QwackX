@@ -1,0 +1,44 @@
+@inject ILogger<DetailUser> logger
+@inject IUserRepository userRepository
+@page "/users/detail/{Id:int}"
+
+<a href="/users" class="btn btn-primary btn-sm active">Retour à la liste</a>
+
+@if (_state is States.Loading)
+{
+    <h3>Chargement...</h3>
+}
+else if (_user is null)
+{
+    <h3>Il semble que l'utilisateur soit introuvable, veuillez retourner à la liste et réessayer...</h3>
+}
+else
+{
+    <h3>Nom d'utilisateur : @_user.Username</h3>
+    <h3>Email : @_user.Email</h3>
+    <h3>Créé le : @_user.CreatedAt.ToString("dd/MM/yyyy HH:mm")</h3>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private User? _user;
+    private States _state = States.Loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result<User> queryResult = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
+
+        if (queryResult.IsFailure)
+        {
+            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+        }
+        else
+        {
+            _user = queryResult.Content;
+        }
+
+        _state = States.Completed;
+    }
+}

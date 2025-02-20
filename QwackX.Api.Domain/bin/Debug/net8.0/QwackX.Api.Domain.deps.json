@@ -1,0 +1,57 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "QwackX.Api.Domain/1.0.0": {
+        "dependencies": {
+          "BStorm.Tools.Database": "1.0.1",
+          "CommandQuerySeparation": "1.0.1"
+        },
+        "runtime": {
+          "QwackX.Api.Domain.dll": {}
+        }
+      },
+      "BStorm.Tools.Database/1.0.1": {
+        "runtime": {
+          "lib/net8.0/BStorm.Tools.Database.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.0"
+          }
+        }
+      },
+      "CommandQuerySeparation/1.0.1": {
+        "runtime": {
+          "lib/net8.0/CommandQuerySeparation.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "QwackX.Api.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BStorm.Tools.Database/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BjvAuVV3tIdX/aBvTmE46yxoaaEyuU5yvm1z3oG3m3+gqRynD7HcRsHS+1Xzu0D+e4Bocy3AqNByHx1Rc7244g==",
+      "path": "bstorm.tools.database/1.0.1",
+      "hashPath": "bstorm.tools.database.1.0.1.nupkg.sha512"
+    },
+    "CommandQuerySeparation/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WXiBZc4VgoWIEA0bhecJnv+vcqy8Qu9QVWZaA3iqJfKmPB9rOAr135DorUbuhjEL6uUxWtBBaHlCFpGGrybPpQ==",
+      "path": "commandqueryseparation/1.0.1",
+      "hashPath": "commandqueryseparation.1.0.1.nupkg.sha512"
+    }
+  }
+}

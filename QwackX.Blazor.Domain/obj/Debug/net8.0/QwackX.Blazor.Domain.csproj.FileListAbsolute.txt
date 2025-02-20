@@ -1,0 +1,12 @@
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/bin/Debug/net8.0/QwackX.Blazor.Domain.deps.json
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/bin/Debug/net8.0/QwackX.Blazor.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/bin/Debug/net8.0/QwackX.Blazor.Domain.pdb
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.csproj.AssemblyReference.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.AssemblyInfoInputs.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.AssemblyInfo.cs
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.csproj.CoreCompileInputs.cache
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/refint/QwackX.Blazor.Domain.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/QwackX.Blazor.Domain.pdb
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor.Domain/obj/Debug/net8.0/ref/QwackX.Blazor.Domain.dll

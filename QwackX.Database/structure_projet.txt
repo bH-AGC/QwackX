@@ -1,0 +1,44 @@
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Database
+├── Procedures
+│   ├── Likes
+│   │   └── LikePost.sql
+│   ├── Posts
+│   │   ├── CreatePost.sql
+│   │   ├── DeletePost.sql
+│   │   ├── GetPostDetail.sql
+│   │   └── GetPostsTitles.sql
+│   ├── Replies
+│   │   ├── AddReply.sql
+│   │   ├── DeleteReply.sql
+│   │   └── GetPostReplies.sql
+│   └── Users
+│       └── CreateUser.sql
+├── QwackX.Database.csproj
+├── Security
+│   ├── Roles
+│   │   └── AppUserRole.sql
+│   └── Schemas
+│       └── AppUserSchema.sql
+├── Tables
+│   ├── Likes.sql
+│   ├── Post.sql
+│   ├── Replies.sql
+│   ├── Roles.sql
+│   ├── Users.sql
+│   └── UsersRoles.sql
+├── bin
+│   └── Debug
+│       └── net8.0
+├── obj
+│   ├── Debug
+│   │   └── net8.0
+│   ├── QwackX.Database.csproj.nuget.dgspec.json
+│   ├── QwackX.Database.csproj.nuget.g.props
+│   ├── QwackX.Database.csproj.nuget.g.targets
+│   ├── project.assets.json
+│   ├── project.nuget.cache
+│   ├── project.packagespec.json
+│   └── rider.project.restore.info
+└── structure_projet.txt
+
+16 directories, 26 files

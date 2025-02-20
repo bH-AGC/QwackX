@@ -1,0 +1,8 @@
+CREATE TABLE [AppUserSchema].[Users] (
+    [Id] INT NOT NULL IDENTITY,
+    [Username] NVARCHAR(50) UNIQUE NOT NULL,
+    [Email] NVARCHAR(255) UNIQUE NOT NULL,
+    [PasswordHash] NVARCHAR(255) NOT NULL,
+    [CreatedAt] DATETIME DEFAULT GETDATE(),
+    CONSTRAINT [PK_Users] PRIMARY KEY ([Id])
+);

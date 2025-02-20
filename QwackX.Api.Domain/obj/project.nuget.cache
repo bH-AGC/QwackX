@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xrNPEJKPG3Y=",
+  "success": true,
+  "projectFilePath": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/QwackX.Api.Domain.csproj",
+  "expectedPackageFiles": [
+    "/Users/agcwork/.nuget/packages/bstorm.tools.database/1.0.1/bstorm.tools.database.1.0.1.nupkg.sha512",
+    "/Users/agcwork/.nuget/packages/commandqueryseparation/1.0.1/commandqueryseparation.1.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

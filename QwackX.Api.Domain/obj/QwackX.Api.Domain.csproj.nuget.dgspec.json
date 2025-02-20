@@ -1,0 +1,78 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/QwackX.Api.Domain.csproj": {}
+  },
+  "projects": {
+    "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/QwackX.Api.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/QwackX.Api.Domain.csproj",
+        "projectName": "QwackX.Api.Domain",
+        "projectPath": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/QwackX.Api.Domain.csproj",
+        "packagesPath": "/Users/agcwork/.nuget/packages/",
+        "outputPath": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Api.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
+        "configFilePaths": [
+          "/Users/agcwork/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/Users/agcwork/Documents/Thierry/NugetPackage/Publish": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "BStorm.Tools.Database": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "CommandQuerySeparation": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

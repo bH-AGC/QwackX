@@ -1,0 +1,5 @@
+CREATE TABLE [AppUserSchema].[Roles] (
+    [Id] INT NOT NULL IDENTITY,
+    [Name] NVARCHAR(50) UNIQUE NOT NULL,
+    CONSTRAINT [PK_Roles] PRIMARY KEY ([Id])
+);

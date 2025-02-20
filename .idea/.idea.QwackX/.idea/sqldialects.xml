@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/QwackX.Database/DeployDatabase.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Likes/LikePost.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/CreatePost.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/DeletePost.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/GetPostDetail.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/GetPostsTitles.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Replies/AddReply.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Replies/DeleteReply.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Replies/GetPostReplies.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/CreateUser.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/DeleteUser.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/DetailUser.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/EditUser.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Users/ListUsers.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Security/Roles/AppUserRole.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Security/Schemas/AppUserSchema.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Likes.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Post.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Replies.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Roles.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/Users.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Tables/UsersRoles.sql" dialect="TSQL" />
+  </component>
+</project>
