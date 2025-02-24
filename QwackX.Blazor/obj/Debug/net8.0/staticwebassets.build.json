@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "I2ZcoU1NWt6uRMEzD5XFyZ/Gyu9fYOtmV2KrMJLEP6k=",
+  "Hash": "MoQQOT2JZrOFsJtC+nbh6HgTwcDTNNED8nBYlj+V2/I=",
   "Source": "QwackX.Blazor",
   "BasePath": "/",
   "Mode": "Root",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/BCrypt.Net.wasm",
+      "SourceId": "QwackX.Blazor",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/BCrypt.Net.wasm",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/webcil/BCrypt.Net.wasm"
+    },
     {
       "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/blazor.boot.json",
       "SourceId": "QwackX.Blazor",
@@ -5791,6 +5810,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/System.Net.Mail.wasm"
+    },
+    {
+      "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/fo3qljtuas.gz",
+      "SourceId": "QwackX.Blazor",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/BCrypt.Net.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/BCrypt.Net.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/BCrypt.Net.wasm"
     },
     {
       "Identity": "/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/fsit86lpvb.gz",

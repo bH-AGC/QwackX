@@ -1069,3 +1069,8 @@
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/QwackX.Blazor.sourcelink.json
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/webcil/Blazored.LocalStorage.wasm
 /Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/arxdbjh866.gz
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/BCrypt.Net.wasm
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/wwwroot/_framework/BCrypt.Net.wasm.gz
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/bin/Debug/net8.0/BCrypt.Net.dll
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/webcil/BCrypt.Net.wasm
+/Users/agcwork/Documents/Qwack/QwackX/QwackX.Blazor/obj/Debug/net8.0/compressed/fo3qljtuas.gz

@@ -1,30 +1,42 @@
-using CommandQuerySeparation.Commands;
-using CommandQuerySeparation.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
-using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
+using QwackX.Api.Infrastructure;
 using QwackX.Api.Models.Dtos;
 
 namespace QwackX.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly ITokenRepository _tokenRepository;
         
-        public UserController(IUserRepository repository)
+        public UserController(IUserRepository userRepository, ITokenRepository tokenRepository)
         {
-            _repository = repository;
+            _userRepository = userRepository;
+            _tokenRepository = tokenRepository;
+            
+            Console.WriteLine("✅ UserController instancié !");
         }
         
         // GET: api/user
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _repository.Execute(new ListUsersQuery());
+            var user = _tokenRepository.User;
+            
+            if (user == null)
+            {
+                Console.WriteLine("⚠️ Aucun utilisateur trouvé !");
+                return Unauthorized("Token invalide ou manquant.");
+            }
+            
+            var result = _userRepository.Execute(new ListUsersQuery());
 
             if (result.IsSuccess)
             {
@@ -40,7 +52,7 @@ namespace QwackX.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var result = _repository.Execute(new DetailUserQuery(id));
+            var result = _userRepository.Execute(new DetailUserQuery(id));
 
             if (result.IsSuccess)
             {
@@ -56,11 +68,11 @@ namespace QwackX.Api.Controllers
         [HttpPost]
         public IActionResult Post(AddUserDto dto)
         {
-            // Hachage du mot de passe
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            // // Hachage du mot de passe
+            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-            var command = new AddUserCommand(dto.Username, dto.Email, hashedPassword);
-            var result = _repository.Execute(command);
+            var command = new AddUserCommand(dto.Username, dto.Email, dto.Password);
+            var result = _userRepository.Execute(command);
     
             if (result.IsFailure)
                 return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
@@ -73,9 +85,9 @@ namespace QwackX.Api.Controllers
         [HttpPatch]
         public IActionResult Put(EditUserDto dto)
         {
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-            
-            var result = _repository.Execute(new EditUserCommand(dto.Id, dto.Username, dto.Email, hashedPassword));
+            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            //
+            var result = _userRepository.Execute(new EditUserCommand(dto.Id, dto.Username, dto.Email, dto.Password));
             if(result.IsFailure)
                 return BadRequest(dto);
 
@@ -86,7 +98,7 @@ namespace QwackX.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var result = _repository.Execute(new DeleteUserCommand(id));
+            var result = _userRepository.Execute(new DeleteUserCommand(id));
 
             if (result.IsFailure)
                 return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");

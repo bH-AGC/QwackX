@@ -12,7 +12,7 @@ internal static partial class Mappers
             Id = (int)record["Id"],
             Username = (string)record["Username"],
             Email = (string)record["Email"],
-            PasswordHash = (string)record["PasswordHash"],
+            Password = (string)record["PasswordHash"],
             CreatedAt = (DateTime)record["CreatedAt"]
         };
     }

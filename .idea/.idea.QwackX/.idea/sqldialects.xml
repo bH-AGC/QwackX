@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/QwackX.Database/DeployDatabase.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/QwackX.Database/Fonctions/CreatePasswd.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Likes/LikePost.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/CreatePost.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/QwackX.Database/Procedures/Posts/DeletePost.sql" dialect="TSQL" />

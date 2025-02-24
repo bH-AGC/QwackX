@@ -6,11 +6,11 @@ namespace QwackX.Api.Domain.Queries;
 public class LoginUserQuery : IQueryDefinition<User>
 {
     public string Email { get; }
-    public string PasswordHash { get; }
+    public string Password { get; }
 
     public LoginUserQuery(string email, string passwd)
     {
         Email = email;
-        PasswordHash = passwd;
+        Password = passwd;
     }
 }

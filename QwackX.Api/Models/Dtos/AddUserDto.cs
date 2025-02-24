@@ -13,7 +13,7 @@ namespace QwackX.Api.Models.Dtos
         public string Email { get; set; } = default!;
 
         [Required]
-        [StringLength(255, MinimumLength = 6)]
+        [StringLength(20, MinimumLength = 6)]
         public string Password { get; set; } = default!;
     }
 }

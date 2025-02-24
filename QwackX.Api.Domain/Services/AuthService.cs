@@ -19,10 +19,7 @@ public class AuthService : BaseRepository, IAuthRepository
             User? utilisateur = DbConnection.ExecuteReader("[AppUserSchema].[LoginUser]", dr => dr.ToUser(), true, userQuery).SingleOrDefault();
 
             if (utilisateur is null)
-                return Result<User>.Failure("Email incorrect");
-
-            if (!BCrypt.Net.BCrypt.Verify(userQuery.PasswordHash, utilisateur.PasswordHash))
-                return Result<User>.Failure("Mot de passe incorrect");
+                return Result<User>.Failure("Email et/ou mot de passe incorrecte");
             
             return Result<User>.Success(utilisateur);            
         }
