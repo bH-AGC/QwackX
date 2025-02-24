@@ -79,6 +79,7 @@ builder.Services.AddScoped<DbConnection>(sp => new SqlConnection(configuration.G
 builder.Services.AddScoped<ITokenRepository, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IPostRepository, PostService>();
 
 WebApplication app = builder.Build();
 
