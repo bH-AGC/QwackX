@@ -32,21 +32,21 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        // options.Events = new JwtBearerEvents
-        // {
-        //     OnAuthenticationFailed = context =>
-        //     {
-        //         // Log détaillé de l'exception d'authentification
-        //         Console.WriteLine($"❌ Authentification échouée : {context.Exception.Message}");
-        //         return Task.CompletedTask;
-        //     },
-        //     OnTokenValidated = context =>
-        //     {
-        //         // Log pour voir si le token a été validé avec succès
-        //         Console.WriteLine("✅ Token validé avec succès !");
-        //         return Task.CompletedTask;
-        //     }
-        // };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                // Log détaillé de l'exception d'authentification
+                Console.WriteLine($"❌ Authentification échouée : {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                // Log pour voir si le token a été validé avec succès
+                Console.WriteLine("✅ Token validé avec succès !");
+                return Task.CompletedTask;
+            }
+        };
 
         
         // options.SaveToken = true;
@@ -100,8 +100,6 @@ builder.Services.AddScoped<ITokenRepository, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
 
-builder.Logging.AddConsole();
-
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -117,13 +115,13 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers["Authorization"].ToString();
-    Console.WriteLine($"🔍 Token reçu: {token}");
-
-    await next();
-});
+// app.Use(async (context, next) =>
+// {
+//     var token = context.Request.Headers["Authorization"].ToString();
+//     Console.WriteLine($"🔍 Token reçu: {token}");
+//
+//     await next();
+// });
 
 // app.Use(async (context, next) =>
 // {

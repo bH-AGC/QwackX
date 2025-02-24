@@ -28,13 +28,13 @@ namespace QwackX.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var user = _tokenRepository.User;
-            
-            if (user == null)
-            {
-                Console.WriteLine("⚠️ Aucun utilisateur trouvé !");
-                return Unauthorized("Token invalide ou manquant.");
-            }
+            // var user = _tokenRepository.User;
+            //
+            // if (user == null)
+            // {
+            //     Console.WriteLine("⚠️ Aucun utilisateur trouvé !");
+            //     return Unauthorized("Token invalide ou manquant.");
+            // }
             
             var result = _userRepository.Execute(new ListUsersQuery());
 

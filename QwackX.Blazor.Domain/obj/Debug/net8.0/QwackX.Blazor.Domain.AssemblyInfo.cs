@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QwackX.Blazor.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1d096b9fb3c8e6f70fd6d4e018462454531ab11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15dca06e3e916e7b4585b4299aabb4620dcd2ffe")]
 [assembly: System.Reflection.AssemblyProductAttribute("QwackX.Blazor.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QwackX.Blazor.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

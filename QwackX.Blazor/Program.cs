@@ -11,7 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient("Default", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5185/");
+    client.BaseAddress = new Uri("https://localhost:7295/");
 });
 
 builder.Services.AddBlazoredLocalStorage();

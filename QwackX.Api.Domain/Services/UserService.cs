@@ -30,11 +30,11 @@ public class UserService : BaseRepository, IUserRepository
         }
         catch (Exception ex)
         {
-            return Result<IEnumerable<User>>.Failure(($"Code de retour : {ex.Message}"));
+            return Result<IEnumerable<User>>.Failure($"Code de retour : {ex.Message}");
         }
     }
     
-    public Result<User?> Execute(DetailUserQuery query)
+    public Result<User> Execute(DetailUserQuery query)
     {
         try
         {
@@ -42,16 +42,16 @@ public class UserService : BaseRepository, IUserRepository
 
             if (user is null)
             {
-                return Result<User?>.Failure("No Users Found");
+                return Result<User>.Failure("No Users Found");
             }
             else
             {
-                return Result<User?>.Success(user);
+                return Result<User>.Success(user);
             }
         }
         catch (Exception ex)
         {
-            return Result<User?>.Failure($"Code de retour : {ex.Message}");
+            return Result<User>.Failure($"Code de retour : {ex.Message}");
         }
     }
 
