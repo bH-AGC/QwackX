@@ -40,7 +40,6 @@ namespace QwackX.Api.Infrastructure
         {
             try
             {
-
                 SymmetricSecurityKey key =
                     new SymmetricSecurityKey(Encoding.Default.GetBytes(_configuration["JwtSettings:SecretKey"]));
                 SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -53,11 +52,11 @@ namespace QwackX.Api.Infrastructure
                         new Claim("Id", user.Id.ToString()),
                         new Claim("Username", user.Username),
                         new Claim("Email", user.Email),
-                        new Claim("CreatedAt", user.CreateAt.ToString("yyyy-MM-dd HH:mm:ss")),
+                        // new Claim("CreatedAt", user.CreateAt.ToString("yyyy-MM-dd HH:mm:ss")),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     ],
                     signingCredentials: creds);
-
+                
                 user.Token = new JwtSecurityTokenHandler().WriteToken(token);
             }
             catch (Exception ex)
@@ -75,11 +74,12 @@ namespace QwackX.Api.Infrastructure
             {
                 throw new InvalidOperationException();
             }
-
-            Console.WriteLine();
+            
             StringValues autorisations = httpContext.Request.Headers["Authorization"];
 
             string? token = autorisations.SingleOrDefault(a => a.StartsWith(prefix));
+            
+            Console.WriteLine("EXTRACT TOKEN : "+ token);
 
             if (token is null)
                 return null;
@@ -89,6 +89,8 @@ namespace QwackX.Api.Infrastructure
 
         private UserDto ExtractDataFromToken(string token)
         {
+            Console.WriteLine("TOKEN : "+ token);
+            
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             JwtSecurityToken? jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
@@ -97,18 +99,17 @@ namespace QwackX.Api.Infrastructure
 
             JwtPayload payload = jsonToken.Payload;
 
-            DateTime createdAt;
-            if (!DateTime.TryParse((string)payload["CreatedAt"], out createdAt))
-            {
-                createdAt = DateTime.MinValue;
-            }
-            
+            // DateTime createdAt;
+            // if (!DateTime.TryParse((string)payload["CreatedAt"], out createdAt))
+            // {
+            //     createdAt = DateTime.MinValue;
+            // }
             return new UserDto()
             {
-                Id = int.Parse((string)payload["Id"]),
+                Id = int.Parse(payload["Id"].ToString()),
                 Username = (string)payload["Username"],
                 Email = (string)payload["Email"],
-                CreateAt = createdAt,
+                // CreateAt = createdAt,
                 Token = token,
             };
         }

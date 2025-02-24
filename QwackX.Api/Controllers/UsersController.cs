@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
-using QwackX.Api.Infrastructure;
 using QwackX.Api.Models.Dtos;
 
 namespace QwackX.Api.Controllers
@@ -14,28 +13,16 @@ namespace QwackX.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly ITokenRepository _tokenRepository;
         
-        public UserController(IUserRepository userRepository, ITokenRepository tokenRepository)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _tokenRepository = tokenRepository;
-            
-            Console.WriteLine("✅ UserController instancié !");
         }
         
         // GET: api/user
         [HttpGet]
         public IActionResult Get()
         {
-            // var user = _tokenRepository.User;
-            //
-            // if (user == null)
-            // {
-            //     Console.WriteLine("⚠️ Aucun utilisateur trouvé !");
-            //     return Unauthorized("Token invalide ou manquant.");
-            // }
-            
             var result = _userRepository.Execute(new ListUsersQuery());
 
             if (result.IsSuccess)

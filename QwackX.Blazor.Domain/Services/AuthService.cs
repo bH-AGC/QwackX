@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Blazored.LocalStorage;
@@ -16,6 +17,7 @@ namespace QwackX.Blazor.Domain.Services
 
         private const string UserIdKey = "userId";
         private const string UsernameKey = "username";
+        private const string UserTokenKey = "userToken";
 
         public AuthService(ILocalStorageService localStorage, IHttpClientFactory httpClientFactory)
         {
@@ -33,6 +35,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             await _localStorage.RemoveItemAsync(UserIdKey);
             await _localStorage.RemoveItemAsync(UsernameKey);
+            await _localStorage.RemoveItemAsync(UserTokenKey);
         }
 
         public async Task<(int? UserId, string? Username)> GetUser()
@@ -47,8 +50,6 @@ namespace QwackX.Blazor.Domain.Services
             try
             {
                 string jsonPayload = JsonSerializer.Serialize(query);
-                Console.WriteLine($"JSON envoyé: {jsonPayload}"); // Ajoute ce log pour débugger
-
                 HttpContent httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 using (HttpResponseMessage responseMessage = await _httpClient.PostAsync("api/auth/login", httpContent))
@@ -60,13 +61,13 @@ namespace QwackX.Blazor.Domain.Services
                     }
 
                     string json = await responseMessage.Content.ReadAsStringAsync();
-                    User _user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
 
-                    // Récupérer le token depuis la réponse JSON et le stocker dans localStorage
-                    var token = json.Substring(json.LastIndexOf("token") + 7); // Extraire le token
-                    await _localStorage.SetItemAsync("authToken", token);  // Stockage du token dans localStorage
+                    User? user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
+                    string? token = JsonSerializer.Deserialize<JsonElement>(json).GetProperty("token").GetString()?.Trim('"');
+                    
+                    await _localStorage.SetItemAsync(UserTokenKey, token);
 
-                    return Result<User>.Success(_user);
+                    return Result<User>.Success(user);
                 }
             }
             catch (Exception ex)
@@ -78,16 +79,16 @@ namespace QwackX.Blazor.Domain.Services
 
         public async Task<Result<User>> ValidateUserCredentialsAsync(string email, string password)
         {
-            var saltResponse = await _httpClient.GetFromJsonAsync<SaltResponse>($"api/auth/salt/{email}");
-
-            if (saltResponse is null || string.IsNullOrEmpty(saltResponse.Salt))
-                return Result<User>.Failure("Impossible de récupérer le sel.");
-
-            string salt = saltResponse.Salt;
+            // var saltResponse = await _httpClient.GetFromJsonAsync<SaltResponse>($"api/auth/salt/{email}");
+            //
+            // if (saltResponse is null || string.IsNullOrEmpty(saltResponse.Salt))
+            //     return Result<User>.Failure("Impossible de récupérer le sel.");
+            //
+            // string salt = saltResponse.Salt;
+            //
+            // string saltedPasswordHash = BCrypt.Net.BCrypt.HashPassword(password, salt);
             
-            string saltedPasswordHash = BCrypt.Net.BCrypt.HashPassword(password, salt);
-            
-            var loginQuery = new LoginUserQuery(email, saltedPasswordHash);
+            var loginQuery = new LoginUserQuery(email, password);
             
             var result = await ExecuteAsync(loginQuery);
 
@@ -100,7 +101,7 @@ namespace QwackX.Blazor.Domain.Services
                 return Result<User>.Failure("Nom d'utilisateur ou mot de passe incorrect");
             }
         }
-
+        
         private class SaltResponse
         {
             public string Salt { get; set; } = default!;

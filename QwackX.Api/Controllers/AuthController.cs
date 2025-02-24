@@ -10,7 +10,6 @@ using QwackX.Api.Infrastructure;
 
 namespace QwackX.Api.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -44,8 +43,6 @@ namespace QwackX.Api.Controllers
 
                 UserDto userDto = result.Content.ToUserDto();
                 _tokenRepository.ApplyToken(userDto);
-                
-                // Console.WriteLine(_tokenRepository.User.ToString());
 
                 return Ok(userDto);
             }

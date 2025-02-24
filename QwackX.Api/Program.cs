@@ -14,7 +14,6 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
-
 builder.Services.AddCors(options => options.AddPolicy(policyName,
     (o) =>
     {
@@ -32,25 +31,6 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                // Log détaillé de l'exception d'authentification
-                Console.WriteLine($"❌ Authentification échouée : {context.Exception.Message}");
-                return Task.CompletedTask;
-            },
-            OnTokenValidated = context =>
-            {
-                // Log pour voir si le token a été validé avec succès
-                Console.WriteLine("✅ Token validé avec succès !");
-                return Task.CompletedTask;
-            }
-        };
-
-        
-        // options.SaveToken = true;
-        // options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = false,
@@ -114,33 +94,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// app.Use(async (context, next) =>
-// {
-//     var token = context.Request.Headers["Authorization"].ToString();
-//     Console.WriteLine($"🔍 Token reçu: {token}");
-//
-//     await next();
-// });
-
-// app.Use(async (context, next) =>
-// {
-//     await next();
-//
-//     if (context.Response.StatusCode == 401)
-//     {
-//         context.Response.ContentType = "application/json";
-//         await context.Response.WriteAsync("{\"message\": \"Token invalide ou manquant\"}");
-//     }
-// });
-
-// app.Use(async (context, next) =>
-// {
-//     // Test: ajouter un token d'authentification pour chaque requête
-//     context.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjI5IiwiVXNlcm5hbWUiOiJzdHJpbmciLCJFbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJDcmVhdGVkQXQiOiIwMDAxLTAxLTAxIDAwOjAwOjAwIiwianRpIjoiODYxOWNjZGMtNDdhNC00MjFmLThkODItZTkyNjEyYzc4MzI5IiwiaXNzIjoiUXdhY2tYLkFwaSIsImF1ZCI6IlF3YWNrWC5CbGF6b3IifQ.hjBzJycOiS1V7EBPu56zvlPr3ysI5rXJrgp_QawINEE";
-//     
-//     await next();
-// });
 
 app.MapControllers();
 

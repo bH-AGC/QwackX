@@ -26,7 +26,8 @@ namespace QwackX.Blazor.Domain.Services
             try
             {
                 await SetAuthorizationHeader();
-                
+                Console.WriteLine($"Authorization: {_httpClient.DefaultRequestHeaders.Authorization}");
+
                 using (HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/user"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
@@ -137,13 +138,16 @@ namespace QwackX.Blazor.Domain.Services
             }
         }
         
-        private async Task SetAuthorizationHeader()
+        private async Task<Result> SetAuthorizationHeader()
         {
-            var token = await _localStorage.GetItemAsync<string>("authToken");
+            string? token = await _localStorage.GetItemAsync<string>("userToken");
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                return Result.Success();
             }
+
+            return Result.Failure("Autentication Failed");
         }
     }
 }
