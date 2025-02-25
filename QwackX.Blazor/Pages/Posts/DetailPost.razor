@@ -2,7 +2,7 @@
 @inject IPostRepository postRepository
 @page "/posts/detail/{Id:int}"
 
-<a href="/posts" class="btn btn-primary btn-sm active">Retour à la liste</a>
+<a href="/posts" class="btn btn-primary btn-sm active">← Retour à la liste</a>
 
 @if (_state is States.Loading)
 {
@@ -14,13 +14,31 @@ else if (_post is null)
 }
 else
 {
-    <h3>Titre : @_post.Title</h3>
-    <h3>Description :</h3>
-    <p>@_post.Description</p>
-    <h3>Créé le : @_post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</h3>
-    <h3>Auteur : @_post.Author</h3>
-    <h3>Nombre de likes : @_post.LikeCount</h3>
+    <div class="post-card">
+        <div class="post-header">
+            <div class="avatar">@_post.Author[0]</div>
+            <div class="post-meta">
+                <strong>@_post.Author</strong> · Posté dans <span class="category">Catégorie</span>
+                <br />
+                <span class="post-date">@_post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+        </div>
+
+        <div class="post-content">
+            <h2 class="post-title">@_post.Title</h2>
+            <p class="post-description">@_post.Description</p>
+        </div>
+
+        <div class="post-footer">
+            <span class="icon like-icon">👍 @_post.LikeCount</span>
+            <span class="icon view-icon">👁️ 1269</span>
+            <span class="icon comment-icon">💬 19</span>
+            <span class="icon time-icon">⏳ Il y a 11 heures</span>
+        </div>
+    </div>
 }
+
+
 
 @code {
     [Parameter]
@@ -31,21 +49,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // Appeler la méthode du repository pour obtenir le détail du post via son ID
         Result<Post> queryResult = await postRepository.ExecuteAsync(new DetailPostQuery(Id));
 
         if (queryResult.IsFailure)
         {
-            // Logguer une erreur si la récupération du post échoue
             logger.LogError($"Erreur : {queryResult.ErrorMessage}");
         }
         else
         {
-            // Si la récupération est réussie, assigner le post
             _post = queryResult.Content;
         }
 
-        // Mettre à jour l'état
         _state = States.Completed;
     }
 }

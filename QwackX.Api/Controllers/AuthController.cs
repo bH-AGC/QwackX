@@ -1,6 +1,7 @@
 using CommandQuerySeparation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QwackX.Api.Domain.Commands;
 using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
@@ -25,7 +26,7 @@ namespace QwackX.Api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginDto dto)
+        public IActionResult Login(LoginUserDto dto)
         {
             try
             {
@@ -50,6 +51,19 @@ namespace QwackX.Api.Controllers
             {
                 return BadRequest($"Erreur lors de l'exécution de la requête: {ex.Message}");
             }
+        }
+        
+        [HttpPost("register")]
+        public IActionResult Register(RegisterUserDto dto)
+        {
+            Result result = _authRepository.Execute(new RegisterUserCommand(dto.Username, dto.Email, dto.Password));
+            
+            if(result.IsFailure)
+            {
+                return BadRequest(new { result.ErrorMessage });
+            }
+            
+            return NoContent();
         }
     }
 }

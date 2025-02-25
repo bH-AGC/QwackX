@@ -1,6 +1,7 @@
 using System.Data.Common;
 using BStorm.Tools.Database;
 using CommandQuerySeparation.Results;
+using QwackX.Api.Domain.Commands;
 using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Mappers;
 using QwackX.Api.Domain.Queries;
@@ -26,6 +27,25 @@ public class AuthService : BaseService, IAuthRepository
         catch (Exception ex)
         {
             return Result<User>.Failure(ex.Message, ex);
+        }
+    }
+
+    public Result Execute(RegisterUserCommand command)
+    {
+        try
+        {
+            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[RegisterUser]", true, command);
+
+            if (responseMessage == 1)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure($"Code de retour : {responseMessage}");
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure($"Code de retour : {ex.Message}");
         }
     }
 }

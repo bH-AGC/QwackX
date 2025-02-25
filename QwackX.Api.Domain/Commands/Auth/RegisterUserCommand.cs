@@ -2,16 +2,14 @@ using CommandQuerySeparation.Commands;
 
 namespace QwackX.Api.Domain.Commands;
 
-public class EditUserCommand : ICommandDefinition
+public class RegisterUserCommand : ICommandDefinition
 {
-    public int UserId { get; }
     public string Username { get; }
     public string Email { get; }
     public string Password { get; }
 
-    public EditUserCommand(int id, string username, string email, string password)
+    public RegisterUserCommand(string username, string email, string password)
     {
-        UserId = id;
         Username = username;
         Email = email;
         Password = password;

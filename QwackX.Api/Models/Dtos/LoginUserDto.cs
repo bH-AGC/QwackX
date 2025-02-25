@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QwackX.Api.Models.Dtos;
 
-public class LoginDto
+public class LoginUserDto
 {
     [Required]
     [EmailAddress]

@@ -1,7 +1,9 @@
+DROP PROCEDURE [AppUserSchema].[CreateUser]
+GO
 CREATE PROCEDURE [AppUserSchema].[CreateUser]
     @Username NVARCHAR(50),
     @Email NVARCHAR(255),
-    @PasswordHash NVARCHAR(20)
+    @Password NVARCHAR(20)
 AS
 BEGIN
     BEGIN TRY
@@ -12,7 +14,7 @@ BEGIN
             END
 
         INSERT INTO AppUserSchema.Users (Username, Email, PasswordHash)
-        VALUES (@Username, @Email, dbo.CreatePasswd(@PasswordHash));
+        VALUES (@Username, @Email, dbo.CreatePasswd(@Password));
     END TRY
     BEGIN CATCH
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
@@ -23,8 +25,3 @@ BEGIN
         RETURN
     END CATCH
 END;
-
--- BEGIN
---     INSERT INTO [AppUserSchema].[Users] ([Username], [Email], [PasswordHash])
---     VALUES (@Username, @Email, @PasswordHash);
--- END;

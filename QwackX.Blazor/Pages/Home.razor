@@ -1,7 +1,54 @@
 ﻿@page "/"
+@inject NavigationManager navigation
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Bienvenue sur QwackX</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container text-center mt-5">
+    <h1 class="display-4 fw-bold">Bienvenue sur QwackX 🦆</h1>
+    <p class="lead">Rejoignez notre communauté et participez aux discussions passionnantes !</p>
 
-Welcome to your new app.
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-primary btn-lg" @onclick="GoToRegister">S'inscrire</button>
+        <button class="btn btn-outline-secondary btn-lg" @onclick="GoToLogin">Se connecter</button>
+    </div>
+
+    <hr class="my-5">
+
+    <h3 class="mb-4">Discussions récentes 🔥</h3>
+    <div class="list-group mx-auto" style="max-width: 600px;">
+        @foreach (var post in RecentPosts)
+        {
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span>@post.Title</span>
+                <span class="badge bg-secondary">@post.Replies réponses</span>
+            </div>
+        }
+    </div>
+
+    <p class="mt-3 text-muted">Connectez-vous pour voir et participer aux discussions !</p>
+</div>
+
+@code {
+    private List<PostPreview> RecentPosts = new()
+    {
+        new PostPreview { Title = "Blazor vs React : Quel est le meilleur ?", Replies = 12 },
+        new PostPreview { Title = "Les meilleures pratiques en C#", Replies = 8 },
+        new PostPreview { Title = "Votre setup de développement ?", Replies = 20 }
+    };
+
+    private void GoToLogin()
+    {
+        navigation.NavigateTo("/auth");
+    }
+
+    private void GoToRegister()
+    {
+        navigation.NavigateTo("/users/create");
+    }
+
+    private class PostPreview
+    {
+        public string Title { get; set; } = string.Empty;
+        public int Replies { get; set; }
+    }
+}
