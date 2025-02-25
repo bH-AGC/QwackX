@@ -80,6 +80,7 @@ builder.Services.AddScoped<ITokenRepository, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
 builder.Services.AddScoped<IPostRepository, PostService>();
+builder.Services.AddScoped<IReplyRepository, ReplyService>();
 
 WebApplication app = builder.Build();
 

@@ -3,7 +3,7 @@ using QwackX.Api.Domain.Entities;
 
 namespace QwackX.Api.Domain.Queries;
 
-public class ListeTitlePostsQuery : IQueryDefinition<IEnumerable<PostTitle>>
+public class ListeTitlePostsQuery : IQueryDefinition<IEnumerable<PostTitle?>>
 {
     
 }

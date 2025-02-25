@@ -1,4 +1,6 @@
-CREATE PROCEDURE [dbo].[GetPostReplies]
+DROP PROCEDURE [dbo].[ListPostReplies]
+GO
+CREATE PROCEDURE [dbo].[ListPostReplies]
     @PostId INT
 AS
 BEGIN

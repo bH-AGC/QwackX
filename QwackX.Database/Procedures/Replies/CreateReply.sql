@@ -1,4 +1,6 @@
-CREATE PROCEDURE [dbo].[AddReply]
+DROP PROCEDURE [dbo].[CreateReply]
+GO
+CREATE PROCEDURE [dbo].[CreateReply]
     @PostId INT,
     @UserId INT,
     @Content NVARCHAR(MAX)

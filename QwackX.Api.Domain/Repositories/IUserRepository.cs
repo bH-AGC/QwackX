@@ -7,8 +7,8 @@ using QwackX.Api.Domain.Queries;
 namespace QwackX.Api.Domain.Repositories;
 
 public interface IUserRepository : 
-    IQueryHandler<ListUsersQuery, IEnumerable<User>>,
-    IQueryHandler<DetailUserQuery, User>,
+    IQueryHandler<ListUsersQuery, IEnumerable<User?>>,
+    IQueryHandler<DetailUserQuery, User?>,
     ICommandHandler<AddUserCommand>,
     ICommandHandler<EditUserCommand>,
     ICommandHandler<DeleteUserCommand>

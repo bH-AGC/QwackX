@@ -7,108 +7,113 @@ using QwackX.Api.Domain.Mappers;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
 
-namespace QwackX.Api.Domain.Services;
-
-public class UserService : BaseService, IUserRepository
+namespace QwackX.Api.Domain.Services
 {
-    public UserService(DbConnection dbConnection) : base(dbConnection) { }
-    
-    public Result<IEnumerable<User>> Execute(ListUsersQuery query)
+    public class UserService : BaseService, IUserRepository
     {
-        try
+        public UserService(DbConnection dbConnection) : base(dbConnection)
         {
-            IEnumerable<User> users = DbConnection.ExecuteReader("[AppUserSchema].[ListUsers]", dr => dr.ToUser(), true);
-
-            if (users.Any())
-            {
-                return Result<IEnumerable<User>>.Success(users);
-            }
-            else
-            {
-                return Result<IEnumerable<User>>.Failure("No Users Found");
-            }
         }
-        catch (Exception ex)
-        {
-            return Result<IEnumerable<User>>.Failure($"Code de retour : {ex.Message}");
-        }
-    }
-    
-    public Result<User> Execute(DetailUserQuery query)
-    {
-        try
-        {
-            User? user = DbConnection.ExecuteReader("[AppUserSchema].[DetailUser]", dr => dr.ToUser(), true, query).SingleOrDefault();
 
-            if (user is null)
+        public Result<IEnumerable<User?>> Execute(ListUsersQuery query)
+        {
+            try
             {
-                return Result<User>.Failure("No Users Found");
+                IEnumerable<User?> users =
+                    DbConnection.ExecuteReader("[AppUserSchema].[ListUsers]", dr => dr.ToUser(), true);
+
+                if (users.Any())
+                {
+                    return Result<IEnumerable<User>>.Success(users);
+                }
+                else
+                {
+                    return Result<IEnumerable<User?>>.Failure("No Users Found");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Result<User>.Success(user);
+                return Result<IEnumerable<User?>>.Failure($"Code de retour : {ex.Message}");
             }
         }
-        catch (Exception ex)
-        {
-            return Result<User>.Failure($"Code de retour : {ex.Message}");
-        }
-    }
 
-    public Result Execute(AddUserCommand command)
-    {
-        try
+        public Result<User?> Execute(DetailUserQuery query)
         {
-            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[CreateUser]", true, command);
-
-            if (responseMessage == 1)
+            try
             {
-                return Result.Success();
+                User? user = DbConnection.ExecuteReader("[AppUserSchema].[DetailUser]", dr => dr.ToUser(), true, query)
+                    .SingleOrDefault();
+
+                if (user is null)
+                {
+                    return Result<User?>.Failure("No Users Found");
+                }
+                else
+                {
+                    return Result<User?>.Success(user);
+                }
             }
-
-            return Result.Failure($"Code de retour : {responseMessage}");
-        }
-        catch (Exception ex)
-        {
-            return Result.Failure($"Code de retour : {ex.Message}");
-        }
-    }
-    
-    public Result Execute(EditUserCommand command)
-    {
-        try
-        {
-            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[EditUser]", true, command);
-
-            if (responseMessage == 1)
+            catch (Exception ex)
             {
-                return Result.Success();
+                return Result<User?>.Failure($"Code de retour : {ex.Message}");
             }
-
-            return Result.Failure($"Code de retour : {responseMessage}");
         }
-        catch (Exception ex)
-        {
-            return Result.Failure($"Code de retour : {ex.Message}");
-        }
-    }
 
-    public Result Execute(DeleteUserCommand command)
-    {
-        try
+        public Result Execute(AddUserCommand command)
         {
-            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[DeleteUser]", true, command);
-
-            if (responseMessage == 1)
+            try
             {
-                return Result.Success();
-            }
+                int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[CreateUser]", true, command);
 
-            return Result.Failure($"Code de retour : {responseMessage}");
+                if (responseMessage == 1)
+                {
+                    return Result.Success();
+                }
+
+                return Result.Failure($"Code de retour : {responseMessage}");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure($"Code de retour : {ex.Message}");
+            }
         }
-        catch (Exception ex)
+
+        public Result Execute(EditUserCommand command)
         {
-            return Result.Failure($"Code de retour : {ex.Message}");
+            try
+            {
+                int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[EditUser]", true, command);
+
+                if (responseMessage == 1)
+                {
+                    return Result.Success();
+                }
+
+                return Result.Failure($"Code de retour : {responseMessage}");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure($"Code de retour : {ex.Message}");
+            }
+        }
+
+        public Result Execute(DeleteUserCommand command)
+        {
+            try
+            {
+                int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[DeleteUser]", true, command);
+
+                if (responseMessage == 1)
+                {
+                    return Result.Success();
+                }
+
+                return Result.Failure($"Code de retour : {responseMessage}");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure($"Code de retour : {ex.Message}");
+            }
         }
     }
 }

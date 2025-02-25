@@ -6,11 +6,9 @@ using QwackX.Api.Domain.Queries;
 
 namespace QwackX.Api.Domain.Repositories;
 
-public interface IPostRepository : 
-    IQueryHandler<ListeTitlePostsQuery, IEnumerable<PostTitle?>>,
-    IQueryHandler<DetailPostQuery, Post>,
-    ICommandHandler<AddPostCommand>,
-    ICommandHandler<DeletePostCommand>
+public interface IReplyRepository : 
+    IQueryHandler<ListPostRepliesQuery, IEnumerable<Reply?>>,
+    ICommandHandler<AddReplyCommand>,
+    ICommandHandler<DeleteReplyCommand>
 {
-    
 }

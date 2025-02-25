@@ -9,7 +9,7 @@ internal static partial class Mappers
     {
         return new User
         {
-            Id = (int)record["Id"],
+            UserId = (int)record["Id"],
             Username = (string)record["Username"],
             Email = (string)record["Email"],
             Password = (string)record["PasswordHash"],
@@ -21,7 +21,7 @@ internal static partial class Mappers
     {
         return new PostTitle
         {
-            Id = (int)record["Id"],
+            PostId = (int)record["Id"],
             UserId = (int)record["UserId"],
             Title = (string)record["Title"],
             CreatedAt = (DateTime)record["CreatedAt"],
@@ -45,15 +45,14 @@ internal static partial class Mappers
         };
     }
     
-    // public static Reply ToReply(this IDataRecord record)
-    // {
-    //     return new Reply
-    //     {
-    //         ReplyId = (int)record["ReplyId"],
-    //         ReplyContent = (string)record["ReplyContent"],
-    //         ReplyCreatedAt = (DateTime)record["ReplyCreatedAt"],
-    //         ReplyUsername = (string)record["ReplyUsername"],
-    //         ReplyUserId = (int)record["UserId"]
-    //     };
-    // }
+    public static Reply ToReply(this IDataRecord record)
+    {
+        return new Reply
+        {
+            ReplyId = (int)record["Id"],
+            Content = (string)record["Content"],
+            CreatedAt = (DateTime)record["CreatedAt"],
+            Username = (string)record["Username"]
+        };
+    }
 }

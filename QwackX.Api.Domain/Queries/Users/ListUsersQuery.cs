@@ -3,7 +3,7 @@ using QwackX.Api.Domain.Entities;
 
 namespace QwackX.Api.Domain.Queries;
 
-public class ListUsersQuery : IQueryDefinition<IEnumerable<User>>
+public class ListUsersQuery : IQueryDefinition<IEnumerable<User?>>
 {
     
 }

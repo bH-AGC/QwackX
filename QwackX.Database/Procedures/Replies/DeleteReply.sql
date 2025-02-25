@@ -1,3 +1,5 @@
+DROP PROCEDURE [dbo].[DeleteReply]
+GO
 CREATE PROCEDURE [dbo].[DeleteReply]
     @ReplyId INT
 AS

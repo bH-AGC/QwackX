@@ -9,7 +9,7 @@ public static class Mappers
     {
         return new UserDto()
         {
-            Id = entity.Id,
+            Id = entity.UserId,
             Username = entity.Username,
             Email = entity.Email,
         };

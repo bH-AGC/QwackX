@@ -2,7 +2,7 @@ namespace QwackX.Api.Domain.Entities;
 
 public class PostTitle
 {
-    public int Id { get; set; }
+    public int PostId { get; set; }
     public required string Title { get; set; }
     public DateTime CreatedAt { get; set; }
     public required string Author { get; set; }
