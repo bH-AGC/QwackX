@@ -38,7 +38,7 @@
 
         if (result.IsSuccess)
         {
-            await authService.SignIn(result.Content.Id, result.Content.Username);
+            await authService.SignIn(result.Content.UserId, result.Content.Username);
             navigation.NavigateTo("/home", true);
         }
         else

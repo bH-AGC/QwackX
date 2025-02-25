@@ -4,7 +4,7 @@ namespace QwackX.Blazor.Domain.Entities
 {
     public class Post
     {
-        public int Id { get; set; }
+        public int PostId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -13,10 +13,10 @@ namespace QwackX.Blazor.Domain.Entities
         public int LikeCount { get; set; }
 
         [JsonConstructor]
-        internal Post(int id, string title, string description, DateTime createdAt, string author, int userId,
+        internal Post(int postId, string title, string description, DateTime createdAt, string author, int userId,
             int likeCount)
         {
-            Id = id;
+            PostId = postId;
             Title = title;
             Description = description;
             CreatedAt = createdAt;

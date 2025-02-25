@@ -21,12 +21,12 @@
         @foreach (User user in _users)
         {
             <tr>
-                <th scope="row">@user.Id</th>
+                <th scope="row">@user.UserId</th>
                 <td>@user.Username</td>
                 <td>@user.Email</td>
                 <td>
-                    <a href="/users/detail/@(user.Id)" class="btn btn-primary btn-sm active">Détails</a> |
-                    <a href="/users/edit/@(user.Id)" class="btn btn-secondary btn-sm active">Editer</a> |
+                    <a href="/users/detail/@(user.UserId)" class="btn btn-primary btn-sm active">Détails</a> |
+                    <a href="/users/edit/@(user.UserId)" class="btn btn-secondary btn-sm active">Editer</a> |
                     <a @onclick="() => OnDelete(user)" class="btn btn-danger btn-sm active">Supprimer</a>
                 </td>
             </tr>
@@ -55,7 +55,7 @@
     {
         _users!.Remove(user);
 
-        Result result = await userRepository.ExecuteAsync(new DeleteUserCommand(user.Id));
+        Result result = await userRepository.ExecuteAsync(new DeleteUserCommand(user.UserId));
 
         if (result.IsFailure)
             logger.LogError(result.ErrorMessage);

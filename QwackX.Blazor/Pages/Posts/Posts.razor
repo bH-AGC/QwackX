@@ -24,14 +24,14 @@
         @foreach (var postTitle in _postTitles)
         {
             <tr>
-                <th scope="row">@postTitle.Id</th>
+                <th scope="row">@postTitle.PostId</th>
                 <td>@postTitle.Title</td>
                 <td>@postTitle.Author</td>
                 <td>@postTitle.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
                 <td>@postTitle.LikeCount</td>
                 <td>@postTitle.ReplyCount</td>
                 <td>
-                    <a href="/posts/detail/@(postTitle.Id)" class="btn btn-primary btn-sm active">Détails</a> |
+                    <a href="/posts/detail/@(postTitle.PostId)" class="btn btn-primary btn-sm active">Détails</a> |
                     <a @onclick="() => OnDelete(postTitle)" class="btn btn-danger btn-sm active">Supprimer</a>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
     {
         _postTitles!.Remove(post);
 
-        Result result = await postRepository.ExecuteAsync(new DeletePostCommand(post.Id));
+        Result result = await postRepository.ExecuteAsync(new DeletePostCommand(post.PostId));
 
         if (result.IsFailure)
             logger.LogError(result.ErrorMessage);
