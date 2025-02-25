@@ -5,30 +5,22 @@ using QwackX.Blazor.Domain.Queries;
 using QwackX.Blazor.Domain.Repositories;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Blazored.LocalStorage;
 using CommandQuerySeparation.Results;
 
 namespace QwackX.Blazor.Domain.Services
 {
-    public class UserService : IUserRepository
+    public class UserService : BaseService, IUserRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService _localStorage;
-
-        public UserService(ILocalStorageService localStorage, IHttpClientFactory httpClientFactory)
-        {
-            _httpClient = httpClientFactory.CreateClient("Default");
-            _localStorage = localStorage;
-        }
-
+        public UserService(IHttpClientFactory httpClientFactory, AuthService authService)
+            : base(httpClientFactory, authService) { }
         public async Task<Result<IEnumerable<User>>> ExecuteAsync(ListUsersQuery query)
         {
             try
             {
-                await SetAuthorizationHeader();
+                await _authService.SetAuthorizationHeader();
                 Console.WriteLine($"Authorization: {_httpClient.DefaultRequestHeaders.Authorization}");
 
-                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/user"))
+                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/users"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
                     {
@@ -53,9 +45,8 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await SetAuthorizationHeader();
-                
-                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync($"api/user/{query.Id}"))
+                await _authService.SetAuthorizationHeader();
+                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync($"api/users/{query.Id}"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
                     {
@@ -79,10 +70,9 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await SetAuthorizationHeader();
-                
+                await _authService.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
-                using (HttpResponseMessage responseMessage = await _httpClient.PostAsync("api/user", httpContent))
+                using (HttpResponseMessage responseMessage = await _httpClient.PostAsync("api/users", httpContent))
                 {
                     return responseMessage.IsSuccessStatusCode 
                         ? Result.Success() 
@@ -99,11 +89,10 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await SetAuthorizationHeader();
-                
+                await _authService.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
 
-                using (HttpResponseMessage responseMessage = await _httpClient.PutAsync($"api/user", httpContent))
+                using (HttpResponseMessage responseMessage = await _httpClient.PutAsync($"api/users", httpContent))
                 {
                     if (responseMessage.IsSuccessStatusCode)
                     {
@@ -123,9 +112,8 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await SetAuthorizationHeader();
-                
-                using (HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"api/user/{command.Id}"))
+                await _authService.SetAuthorizationHeader();
+                using (HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"api/users/{command.Id}"))
                 {
                     return responseMessage.IsSuccessStatusCode 
                         ? Result.Success() 
@@ -136,18 +124,6 @@ namespace QwackX.Blazor.Domain.Services
             {
                 return Result.Failure(ex.Message, ex);
             }
-        }
-        
-        private async Task<Result> SetAuthorizationHeader()
-        {
-            string? token = await _localStorage.GetItemAsync<string>("userToken");
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                return Result.Success();
-            }
-
-            return Result.Failure("Autentication Failed");
         }
     }
 }

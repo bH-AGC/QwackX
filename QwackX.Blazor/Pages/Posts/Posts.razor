@@ -1,0 +1,68 @@
+@page "/posts"
+@inject IPostRepository postRepository
+@inject ILogger<Posts> logger
+
+<h3>Titres des posts</h3>
+
+<a href="/posts/create" class="btn btn-primary btn-sm active">Nouveau Post</a>
+
+@if (_postTitles is not null)
+{
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Auteur</th>
+            <th scope="col">Créé le</th>
+            <th scope="col">J'aime</th>
+            <th scope="col">Réponses</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var postTitle in _postTitles)
+        {
+            <tr>
+                <th scope="row">@postTitle.Id</th>
+                <td>@postTitle.Title</td>
+                <td>@postTitle.Author</td>
+                <td>@postTitle.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@postTitle.LikeCount</td>
+                <td>@postTitle.ReplyCount</td>
+                <td>
+                    <a href="/posts/detail/@(postTitle.Id)" class="btn btn-primary btn-sm active">Détails</a> |
+                    <a @onclick="() => OnDelete(postTitle)" class="btn btn-danger btn-sm active">Supprimer</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ICollection<PostTitle>? _postTitles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var queryResult = await postRepository.ExecuteAsync(new ListeTitlePostsQuery());
+
+        if (queryResult.IsFailure)
+        {
+            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            return;
+        }
+
+        _postTitles = queryResult.Content.ToList();
+    }
+    
+    public async Task OnDelete(PostTitle post)
+    {
+        _postTitles!.Remove(post);
+
+        Result result = await postRepository.ExecuteAsync(new DeletePostCommand(post.Id));
+
+        if (result.IsFailure)
+            logger.LogError(result.ErrorMessage);
+    }
+}

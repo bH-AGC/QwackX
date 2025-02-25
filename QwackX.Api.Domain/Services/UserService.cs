@@ -9,7 +9,7 @@ using QwackX.Api.Domain.Repositories;
 
 namespace QwackX.Api.Domain.Services;
 
-public class UserService : BaseRepository, IUserRepository
+public class UserService : BaseService, IUserRepository
 {
     public UserService(DbConnection dbConnection) : base(dbConnection) { }
     

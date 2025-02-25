@@ -1,0 +1,51 @@
+@inject ILogger<DetailPost> logger
+@inject IPostRepository postRepository
+@page "/posts/detail/{Id:int}"
+
+<a href="/posts" class="btn btn-primary btn-sm active">Retour à la liste</a>
+
+@if (_state is States.Loading)
+{
+    <h3>Chargement...</h3>
+}
+else if (_post is null)
+{
+    <h3>Il semble que le post soit introuvable, veuillez retourner à la liste et réessayer...</h3>
+}
+else
+{
+    <h3>Titre : @_post.Title</h3>
+    <h3>Description :</h3>
+    <p>@_post.Description</p>
+    <h3>Créé le : @_post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</h3>
+    <h3>Auteur : @_post.Author</h3>
+    <h3>Nombre de likes : @_post.LikeCount</h3>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Post? _post;
+    private States _state = States.Loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Appeler la méthode du repository pour obtenir le détail du post via son ID
+        Result<Post> queryResult = await postRepository.ExecuteAsync(new DetailPostQuery(Id));
+
+        if (queryResult.IsFailure)
+        {
+            // Logguer une erreur si la récupération du post échoue
+            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+        }
+        else
+        {
+            // Si la récupération est réussie, assigner le post
+            _post = queryResult.Content;
+        }
+
+        // Mettre à jour l'état
+        _state = States.Completed;
+    }
+}

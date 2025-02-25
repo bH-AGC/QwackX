@@ -25,7 +25,7 @@ internal static partial class Mappers
             UserId = (int)record["UserId"],
             Title = (string)record["Title"],
             CreatedAt = (DateTime)record["CreatedAt"],
-            Username = (string)record["Username"],
+            Author = (string)record["Username"],
             LikeCount = (int)record["LikeCount"],
             ReplyCount = (int)record["ReplyCount"]
         };
@@ -39,7 +39,7 @@ internal static partial class Mappers
             Title = (string)record["Title"],
             Description = (string)record["Description"],
             CreatedAt = (DateTime)record["CreatedAt"],
-            Username = (string)record["Username"],
+            Author = (string)record["Username"],
             UserId = (int)record["UserId"],
             LikeCount = (int)record["LikeCount"],
         };

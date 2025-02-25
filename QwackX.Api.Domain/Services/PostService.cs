@@ -9,9 +9,8 @@ using QwackX.Api.Domain.Repositories;
 
 namespace QwackX.Api.Domain.Services
 {
-    public class PostService : BaseRepository, IPostRepository
+    public class PostService : BaseService, IPostRepository
     {
-        private IPostRepository _postRepositoryImplementation;
         public PostService(DbConnection dbConnection) : base(dbConnection) { }
         
         public Result<IEnumerable<PostTitle>> Execute(ListeTitlePostsQuery query)

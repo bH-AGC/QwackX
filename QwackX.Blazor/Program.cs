@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using QwackX.Blazor;
 using QwackX.Blazor.Domain.Repositories;
 using QwackX.Blazor.Domain.Services;
+using QwackX.Blazor.Pages.Security;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -15,8 +16,10 @@ builder.Services.AddHttpClient("Default", client =>
 });
 
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddScoped<IAuthRepository, AuthService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IPostRepository, PostService>();
 
 await builder.Build().RunAsync();

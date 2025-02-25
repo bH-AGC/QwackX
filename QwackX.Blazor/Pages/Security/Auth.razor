@@ -1,6 +1,4 @@
 @page "/auth"
-@using System.ComponentModel.DataAnnotations
-@using QwackX.Blazor.Domain.Services
 @inject AuthService authService
 @inject NavigationManager navigation
 
@@ -36,7 +34,7 @@
 
     private async Task OnSubmit()
     {
-        var result = await authService.ValidateUserCredentialsAsync(form.Email, form.Password);
+        var result = await authService.ExecuteAsync(new LoginUserQuery(form.Email, form.Password));
 
         if (result.IsSuccess)
         {

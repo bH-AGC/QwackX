@@ -8,7 +8,7 @@ using QwackX.Api.Domain.Repositories;
 
 namespace QwackX.Api.Domain.Services;
 
-public class AuthService : BaseRepository, IAuthRepository
+public class AuthService : BaseService, IAuthRepository
 {
     public AuthService(DbConnection dbConnection) : base(dbConnection) { }
     

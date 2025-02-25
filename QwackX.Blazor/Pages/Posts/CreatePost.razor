@@ -1,0 +1,53 @@
+@inject IPostRepository postRepository
+@inject NavigationManager navigation
+@inject AuthService authService
+
+@page "/posts/create"
+
+<h3>Créer un Post</h3>
+
+@if (_message is not null)
+{
+    <h3 class="text-danger">@_message</h3>
+}
+
+<EditForm Model="Form" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div>
+        <label for="Title">Titre :</label>
+        <InputText id="Title" @bind-Value="Form.Title" class="form-control" />
+        <ValidationMessage For="() => Form.Title" />
+    </div>
+    <div>
+        <label for="Description">Description :</label>
+        <InputText id="Description" @bind-Value="Form.Description" class="form-control" />
+        <ValidationMessage For="() => Form.Description" />
+    </div>
+    <div>
+        <input type="submit" value="Créer" class="btn btn-primary mt-2" />
+    </div>
+</EditForm>
+
+@code {
+    private AddPostForm Form { get; } = new();
+    private string? _message = null;
+    private int? _userId = null;
+
+    public async Task OnValidSubmit()
+    {
+        var (userId, _) = await authService.GetUser();
+        _userId = userId;
+        
+        if (_userId.HasValue)
+        {
+            var result = await postRepository.ExecuteAsync(new AddPostCommand(_userId.Value, Form.Title, Form.Description));
+        
+            if (result.IsSuccess)
+                navigation.NavigateTo("/posts");
+        }
+        else
+        {
+            _message = "Quelque chose s'est mal passé...";
+        }
+    }
+}

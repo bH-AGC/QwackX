@@ -1,12 +1,12 @@
 using System.Data.Common;
 
-namespace QwackX.Api.Domain.Repositories;
+namespace QwackX.Api.Domain.Services;
 
-public abstract class BaseRepository
+public abstract class BaseService
 {
     public DbConnection DbConnection { get; }
 
-    protected BaseRepository(DbConnection dbConnection)
+    protected BaseService(DbConnection dbConnection)
     {
         DbConnection = dbConnection;
         DbConnection.Open();
