@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject NavigationManager navigation
+@inject AuthService authService
 
 <PageTitle>Bienvenue sur QwackX</PageTitle>
 
@@ -8,8 +9,15 @@
     <p class="lead">Rejoignez notre communauté et participez aux discussions passionnantes !</p>
 
     <div class="d-flex justify-content-center gap-3 mt-4">
-        <button class="btn btn-primary btn-lg" @onclick="GoToRegister">S'inscrire</button>
-        <button class="btn btn-outline-secondary btn-lg" @onclick="GoToLogin">Se connecter</button>
+        @if (isAuthenticated)
+        {
+            <button class="btn btn-outline-secondary btn-lg" @onclick="GoToPosts">Accéder au Forum</button>
+        }
+        else
+        {
+            <button class="btn btn-primary btn-lg" @onclick="GoToRegister">S'inscrire</button>
+            <button class="btn btn-outline-secondary btn-lg" @onclick="GoToLogin">Se connecter</button>
+        }
     </div>
 
     <hr class="my-5">
@@ -29,6 +37,13 @@
 </div>
 
 @code {
+    private bool isAuthenticated;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await authService.IsAuthenticatedAsync();
+    }
+    
     private List<PostPreview> RecentPosts = new()
     {
         new PostPreview { Title = "Blazor vs React : Quel est le meilleur ?", Replies = 12 },
@@ -38,12 +53,17 @@
 
     private void GoToLogin()
     {
-        navigation.NavigateTo("/auth");
+        navigation.NavigateTo("/login");
     }
 
     private void GoToRegister()
     {
-        navigation.NavigateTo("/users/create");
+        navigation.NavigateTo("/register");
+    }
+
+    private void GoToPosts()
+    {
+        navigation.NavigateTo("/posts");
     }
 
     private class PostPreview

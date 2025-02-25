@@ -7,7 +7,7 @@ namespace QwackX.Blazor.Domain.Services
 
         protected BaseService(IHttpClientFactory httpClientFactory, AuthService authService)
         {
-            _httpClient = authService.HttpClient;
+            _httpClient = authService.httpClient;
             _authService = authService;
         }
     }

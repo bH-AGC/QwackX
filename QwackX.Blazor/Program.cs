@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using QwackX.Blazor;
 using QwackX.Blazor.Domain.Repositories;
 using QwackX.Blazor.Domain.Services;
-using QwackX.Blazor.Pages.Security;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

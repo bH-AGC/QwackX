@@ -1,12 +1,18 @@
-@page "/auth"
+@page "/register"
 @inject AuthService authService
 @inject NavigationManager navigation
 
-<h3>Se connecter</h3>
+<h3>S'inscrire</h3>
 
 <EditForm Model="@form" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Username">Nom d'utilisateur :</label>
+        <InputText id="Username" @bind-Value="form.Username" class="form-control" />
+        <ValidationMessage For="() => form.Username" />
+    </div>
 
     <div class="form-group">
         <label for="Email">Email :</label>
@@ -20,7 +26,13 @@
         <ValidationMessage For="() => form.Password" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Se connecter</button>
+    <div class="form-group">
+        <label for="ConfirmPassword">Confirmer le mot de passe :</label>
+        <InputText id="ConfirmPassword" type="password" @bind-Value="form.ConfirmPassword" class="form-control" />
+        <ValidationMessage For="() => form.ConfirmPassword" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">S'inscrire</button>
 
     @if (!string.IsNullOrEmpty(errorMessage))
     {
@@ -29,21 +41,20 @@
 </EditForm>
 
 @code {
-    private LoginUserForm form = new LoginUserForm();
+    private RegisterUserForm form = new RegisterUserForm();
     private string? errorMessage;
 
     private async Task OnSubmit()
     {
-        var result = await authService.ExecuteAsync(new LoginUserQuery(form.Email, form.Password));
+        var result = await authService.ExecuteAsync(new RegisterUserCommand(form.Username, form.Email, form.Password));
 
         if (result.IsSuccess)
         {
-            await authService.SignIn(result.Content.Id, result.Content.Username);
-            navigation.NavigateTo("/home", true);
+            navigation.NavigateTo("/login", true);
         }
         else
         {
-            errorMessage = "Nom d'utilisateur ou mot de passe incorrect";
+            errorMessage = "Une erreur est survenue lors de l'inscription.";
         }
     }
 }
