@@ -1,9 +1,8 @@
-@inject IPostRepository postRepository
-@inject NavigationManager navigation
-@inject AuthService authService
-@inject ILogger<CreatePost> logger;
-
 @page "/posts/create"
+@inject NavigationManager navigation
+@inject ILogger<CreatePost> logger;
+@inject AuthService authService
+@inject IPostRepository postRepository
 
 <h3>Créer un Post</h3>
 
