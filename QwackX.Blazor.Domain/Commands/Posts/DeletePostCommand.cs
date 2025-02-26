@@ -4,10 +4,10 @@ namespace QwackX.Blazor.Domain.Commands;
 
 public class DeletePostCommand : ICommandDefinition
 {
-    public int Id { get; }
+    public int PostId { get; }
 
-    public DeletePostCommand(int id)
+    public DeletePostCommand(int postId)
     {
-        Id = id;
+        PostId = postId;
     }
 }

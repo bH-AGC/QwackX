@@ -12,7 +12,7 @@ public class PostService : BaseService, IPostRepository
 {
     public PostService(AuthService authService) : base(authService) { }
     
-    public async Task<Result<IEnumerable<PostTitle>>> ExecuteAsync(ListeTitlePostsQuery query)
+    public async Task<Result<IEnumerable<PostTitle?>>> ExecuteAsync(ListeTitlePostsQuery query)
     {
         try
         {
@@ -22,7 +22,7 @@ public class PostService : BaseService, IPostRepository
                 if (!responseMessage.IsSuccessStatusCode)
                 {
                     string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-                    return Result<IEnumerable<PostTitle>>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
+                    return Result<IEnumerable<PostTitle?>>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
                 }
 
                 string json = await responseMessage.Content.ReadAsStringAsync();
@@ -31,15 +31,15 @@ public class PostService : BaseService, IPostRepository
 
                 if (postTitles is null)
                 {
-                    return Result<IEnumerable<PostTitle>>.Success(Enumerable.Empty<PostTitle>());
+                    return Result<IEnumerable<PostTitle?>>.Success(Enumerable.Empty<PostTitle>());
                 }
 
-                return Result<IEnumerable<PostTitle>>.Success(postTitles);
+                return Result<IEnumerable<PostTitle?>>.Success(postTitles);
             }
         }
         catch (Exception ex)
         {
-            return Result<IEnumerable<PostTitle>>.Failure($"Error: {ex.Message}");
+            return Result<IEnumerable<PostTitle?>>.Failure($"Error: {ex.Message}");
         }
     }
 
@@ -91,7 +91,7 @@ public class PostService : BaseService, IPostRepository
         try
         {
             await AuthService.SetAuthorizationHeader();
-            using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/posts/{command.Id}"))
+            using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/posts/{command.PostId}"))
             {
                 return await CommandResultMessageAsync(responseMessage);
             }

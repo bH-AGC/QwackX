@@ -4,14 +4,14 @@ namespace QwackX.Blazor.Domain.Commands;
 
 public class EditUserCommand : ICommandDefinition
 {
-    public int Id { get; }
+    public int UserId { get; }
     public string Username { get; }
     public string Email { get; }
     public string Password { get; }
 
-    public EditUserCommand(int id, string username, string email, string password)
+    public EditUserCommand(int userId, string username, string email, string password)
     {
-        Id = id;
+        UserId = userId;
         Username = username;
         Email = email;
         Password = password;

@@ -6,11 +6,10 @@ using QwackX.Blazor.Domain.Queries;
 
 namespace QwackX.Blazor.Domain.Repositories;
 
-public interface IPostRepository : 
-    IQueryAsyncHandler<ListeTitlePostsQuery, IEnumerable<PostTitle?>>,
-    IQueryAsyncHandler<DetailPostQuery, Post>,
-    ICommandAsyncHandler<AddPostCommand>,
-    ICommandAsyncHandler<DeletePostCommand>
+public interface IReplyRepository :
+    IQueryAsyncHandler<ListPostRepliesQuery, IEnumerable<Reply?>>,
+    ICommandAsyncHandler<AddReplyCommand>,
+    ICommandAsyncHandler<DeleteReplyCommand>
 {
     
 }

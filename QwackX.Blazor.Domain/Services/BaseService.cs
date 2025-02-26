@@ -12,7 +12,7 @@ namespace QwackX.Blazor.Domain.Services
             HttpClient = authService.HttpClient;
             AuthService = authService;
         }
-        
+
         protected static async Task<Result> CommandResultMessageAsync(HttpResponseMessage responseMessage)
         {
             if (!responseMessage.IsSuccessStatusCode)
