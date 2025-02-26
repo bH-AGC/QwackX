@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using QwackX.Blazor.Domain.Commands;
 using QwackX.Blazor.Domain.Entities;
 using QwackX.Blazor.Domain.Queries;
@@ -11,12 +10,12 @@ namespace QwackX.Blazor.Domain.Services
 {
     public class UserService : BaseService, IUserRepository
     {
-        public UserService(AuthService authService) : base(authService) { }
+        public UserService(IAuthRepository authRepository) : base(authRepository) { }
         public async Task<Result<IEnumerable<User>>> ExecuteAsync(ListUsersQuery query)
         {
             try
             {
-                await AuthService.SetAuthorizationHeader();
+                await AuthRepository.SetAuthorizationHeader();
 
                 using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/users"))
                 {
@@ -44,7 +43,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await AuthService.SetAuthorizationHeader();
+                await AuthRepository.SetAuthorizationHeader();
                 using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/users/{query.Id}"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
@@ -69,7 +68,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await AuthService.SetAuthorizationHeader();
+                await AuthRepository.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
                 using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/users", httpContent))
                 {
@@ -86,7 +85,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await AuthService.SetAuthorizationHeader();
+                await AuthRepository.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
                 using (HttpResponseMessage responseMessage = await HttpClient.PutAsync($"api/users", httpContent))
                 {
@@ -103,7 +102,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await AuthService.SetAuthorizationHeader();
+                await AuthRepository.SetAuthorizationHeader();
                 using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/users/{command.UserId}"))
                 {
                     return await CommandResultMessageAsync(responseMessage);

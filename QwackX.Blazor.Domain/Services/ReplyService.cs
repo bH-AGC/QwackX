@@ -10,14 +10,14 @@ namespace QwackX.Blazor.Domain.Services;
 
 public class ReplyService : BaseService, IReplyRepository
 {
-    public ReplyService(AuthService authService) : base(authService) { }
+    public ReplyService(IAuthRepository authRepository) : base(authRepository) { }
     
     public async Task<Result<IEnumerable<Reply?>>> ExecuteAsync(ListPostRepliesQuery query)
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
-            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/replies"))
+            await AuthRepository.SetAuthorizationHeader();
+            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/replies/{query.PostId}"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
                 {
@@ -47,7 +47,7 @@ public class ReplyService : BaseService, IReplyRepository
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             HttpContent httpContent = JsonContent.Create(command);
             using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/replies", httpContent))
             {
@@ -64,7 +64,7 @@ public class ReplyService : BaseService, IReplyRepository
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/replies/{command.ReplyId}"))
             {
                 return await CommandResultMessageAsync(responseMessage);

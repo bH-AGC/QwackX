@@ -1,6 +1,6 @@
 ﻿@page "/"
-@inject NavigationManager navigation
-@inject AuthService authService
+@inject NavigationManager Navigation
+@inject IAuthRepository AuthRepository
 
 <PageTitle>Bienvenue sur QwackX</PageTitle>
 
@@ -41,7 +41,7 @@
     
     protected override async Task OnInitializedAsync()
     {
-        isAuthenticated = await authService.IsAuthenticatedAsync();
+        isAuthenticated = await AuthRepository.IsAuthenticatedAsync();
     }
     
     private List<PostPreview> RecentPosts = new()
@@ -53,17 +53,17 @@
 
     private void GoToLogin()
     {
-        navigation.NavigateTo("/login");
+        Navigation.NavigateTo("/login");
     }
 
     private void GoToRegister()
     {
-        navigation.NavigateTo("/register");
+        Navigation.NavigateTo("/register");
     }
 
     private void GoToPosts()
     {
-        navigation.NavigateTo("/posts");
+        Navigation.NavigateTo("/posts");
     }
 
     private class PostPreview

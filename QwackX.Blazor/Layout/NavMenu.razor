@@ -1,5 +1,5 @@
-﻿@inject AuthService authService
-@inject NavigationManager navigation
+﻿@inject IAuthRepository AuthRepository
+@inject NavigationManager Navigation
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -17,7 +17,7 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        @if (isAuthenticated)
+        @if (_isAuthenticated)
         {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="users">
@@ -31,9 +31,9 @@
             </div>
         }
         <div class="nav-item px-3">
-            @if (isAuthenticated)
+            @if (_isAuthenticated)
             {
-                <span class="text-light me-3">Hello, @username!</span>
+                <span class="text-light me-3">Hello, @_username!</span>
                 <button class="btn btn-danger me-3" @onclick="SignOut">Se déconnecter</button>
             }
             else
@@ -45,38 +45,38 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
-    private bool isAuthenticated = false;
-    private string? username;
+    private bool _collapseNavMenu = true;
+    private bool _isAuthenticated = false;
+    private string? _username;
 
     protected override async Task OnInitializedAsync()
     {
-        isAuthenticated = await authService.IsAuthenticatedAsync();
-        username = await authService.GetUsernameAsync();
+        _isAuthenticated = await AuthRepository.IsAuthenticatedAsync();
+        _username = await AuthRepository.GetUsernameAsync();
     }
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 
     private void GoToLogin()
     {
-        navigation.NavigateTo("/login");
+        Navigation.NavigateTo("/login");
     }
 
     private async Task SignOut()
     {
-        await authService.SignOut();
+        await AuthRepository.SignOut();
         await LoadUser();
-        navigation.NavigateTo("/", true);
+        Navigation.NavigateTo("/", true);
     }
 
     private async Task LoadUser()
     {
-        var (userId, username) = await authService.GetUser();
-        isAuthenticated = userId.HasValue;
-        this.username = username;
+        var (userId, username) = await AuthRepository.GetUser();
+        _isAuthenticated = userId.HasValue;
+        this._username = username;
         StateHasChanged();
     }
 }

@@ -1,7 +1,7 @@
 @page "/users/edit/{Id:int}"
-@inject NavigationManager navigation
-@inject ILogger<EditUser> logger
-@inject IUserRepository userRepository
+@inject NavigationManager Navigation
+@inject ILogger<EditUser> Logger
+@inject IUserRepository UserRepository
 
 <h3>Modifier un Utilisateur</h3>
 
@@ -42,11 +42,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Result<User> queryResult = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
+        Result<User> queryResult = await UserRepository.ExecuteAsync(new DetailUserQuery(Id));
 
         if (queryResult.IsFailure)
         {
-            navigation.NavigateTo("/users");
+            Navigation.NavigateTo("/users");
             return;
         }
 
@@ -56,20 +56,20 @@
 
     private async void OnValidSubmit()
     {
-        Result result = await userRepository.ExecuteAsync(new EditUserCommand(Id, Form.Username, Form.Email, Form.Password));
+        Result result = await UserRepository.ExecuteAsync(new EditUserCommand(Id, Form.Username, Form.Email, Form.Password));
 
         if (result.IsFailure)
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             _message = "Une erreur est survenue lors de la modification.";
             return;
         }
 
-        navigation.NavigateTo("/users");
+        Navigation.NavigateTo("/users");
     }
 
     private void OnCancel()
     {
-        navigation.NavigateTo("/users");
+        Navigation.NavigateTo("/users");
     }
 }

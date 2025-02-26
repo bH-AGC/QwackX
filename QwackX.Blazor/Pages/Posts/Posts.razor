@@ -1,6 +1,6 @@
 @page "/posts"
-@inject ILogger<Posts> logger
-@inject IPostRepository postRepository
+@inject ILogger<Posts> Logger
+@inject IPostRepository PostRepository
 
 <h3>Titres des posts</h3>
 
@@ -41,15 +41,15 @@
 }
 
 @code {
-    private ICollection<PostTitle>? _postTitles;
+    private List<PostTitle?>? _postTitles;
 
     protected override async Task OnInitializedAsync()
     {
-        var queryResult = await postRepository.ExecuteAsync(new ListeTitlePostsQuery());
+        var queryResult = await PostRepository.ExecuteAsync(new ListeTitlePostsQuery());
 
         if (queryResult.IsFailure)
         {
-            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            Logger.LogError($"Erreur : {queryResult.ErrorMessage}");
             return;
         }
 
@@ -60,9 +60,9 @@
     {
         _postTitles!.Remove(post);
 
-        Result result = await postRepository.ExecuteAsync(new DeletePostCommand(post.PostId));
+        Result result = await PostRepository.ExecuteAsync(new DeletePostCommand(post.PostId));
 
         if (result.IsFailure)
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
     }
 }

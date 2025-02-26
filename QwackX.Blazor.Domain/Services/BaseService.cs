@@ -1,17 +1,27 @@
 using CommandQuerySeparation.Results;
+using QwackX.Blazor.Domain.Repositories;
 
 namespace QwackX.Blazor.Domain.Services
 {
     public abstract class BaseService
     {
         protected readonly HttpClient HttpClient;
-        protected readonly AuthService AuthService;
+        protected readonly IAuthRepository AuthRepository;
 
-        protected BaseService(AuthService authService)
+        protected BaseService(IAuthRepository authRepository)
         {
-            HttpClient = authService.HttpClient;
-            AuthService = authService;
+            if (authRepository is AuthService authService)
+            {
+                HttpClient = authService.HttpClient;
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(authRepository), "L'instance fournie n'est pas un AuthService.");
+            }
+
+            AuthRepository = authRepository;
         }
+
 
         protected static async Task<Result> CommandResultMessageAsync(HttpResponseMessage responseMessage)
         {

@@ -1,6 +1,6 @@
 @page "/users/detail/{Id:int}"
-@inject ILogger<DetailUser> logger
-@inject IUserRepository userRepository
+@inject ILogger<DetailUser> Logger
+@inject IUserRepository UserRepository
 
 <a href="/users" class="btn btn-primary btn-sm active">Retour à la liste</a>
 
@@ -28,7 +28,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Result<User> result = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
+        Result<User> result = await UserRepository.ExecuteAsync(new DetailUserQuery(Id));
 
         if (result.IsSuccess)
         {
@@ -36,7 +36,7 @@ else
         }
         else
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
         }
         
         _state = States.Completed;

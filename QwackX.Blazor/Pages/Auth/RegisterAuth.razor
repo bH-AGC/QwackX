@@ -1,62 +1,62 @@
 @page "/register"
-@inject NavigationManager navigation
-@inject ILogger<RegisterAuth> logger
-@inject AuthService authService
+@inject NavigationManager Navigation
+@inject ILogger<RegisterAuth> Logger
+@inject IAuthRepository AuthRepository
 
 <h3>S'inscrire</h3>
 
-<EditForm Model="@form" OnValidSubmit="OnSubmit">
+<EditForm Model="@Form" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
         <label for="Username">Nom d'utilisateur :</label>
-        <InputText id="Username" @bind-Value="form.Username" class="form-control" />
-        <ValidationMessage For="() => form.Username" />
+        <InputText id="Username" @bind-Value="Form.Username" class="form-control" />
+        <ValidationMessage For="() => Form.Username" />
     </div>
 
     <div class="form-group">
         <label for="Email">Email :</label>
-        <InputText id="Email" @bind-Value="form.Email" class="form-control" />
-        <ValidationMessage For="() => form.Email" />
+        <InputText id="Email" @bind-Value="Form.Email" class="form-control" />
+        <ValidationMessage For="() => Form.Email" />
     </div>
 
     <div class="form-group">
         <label for="Password">Mot de passe :</label>
-        <InputText id="Password" type="password" @bind-Value="form.Password" class="form-control" />
-        <ValidationMessage For="() => form.Password" />
+        <InputText id="Password" type="password" @bind-Value="Form.Password" class="form-control" />
+        <ValidationMessage For="() => Form.Password" />
     </div>
 
     <div class="form-group">
         <label for="ConfirmPassword">Confirmer le mot de passe :</label>
-        <InputText id="ConfirmPassword" type="password" @bind-Value="form.ConfirmPassword" class="form-control" />
-        <ValidationMessage For="() => form.ConfirmPassword" />
+        <InputText id="ConfirmPassword" type="password" @bind-Value="Form.ConfirmPassword" class="form-control" />
+        <ValidationMessage For="() => Form.ConfirmPassword" />
     </div>
 
     <button type="submit" class="btn btn-primary">S'inscrire</button>
 
-    @if (!string.IsNullOrEmpty(errorMessage))
+    @if (!string.IsNullOrEmpty(_errorMessage))
     {
-        <div class="alert alert-danger mt-2">@errorMessage</div>
+        <div class="alert alert-danger mt-2">@_errorMessage</div>
     }
 </EditForm>
 
 @code {
-    private RegisterUserForm form = new RegisterUserForm();
-    private string? errorMessage;
+    private RegisterUserForm Form { get; } = new();
+    private string? _errorMessage;
 
     private async Task OnSubmit()
     {
-        var result = await authService.ExecuteAsync(new RegisterUserCommand(form.Username, form.Email, form.Password));
+        var result = await AuthRepository.ExecuteAsync(new RegisterUserCommand(Form.Username, Form.Email, Form.Password));
 
         if (result.IsSuccess)
         {
-            navigation.NavigateTo("/login", true);
+            Navigation.NavigateTo("/login", true);
         }
         else
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
-            errorMessage = "Une erreur est survenue lors de l'inscription.";
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            _errorMessage = "Une erreur est survenue lors de l'inscription.";
         }
     }
 }

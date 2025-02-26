@@ -17,8 +17,8 @@ builder.Services.AddHttpClient("Default", client =>
 builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddScoped<IAuthRepository, AuthService>();
-builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
 builder.Services.AddScoped<IPostRepository, PostService>();
+builder.Services.AddScoped<IReplyRepository, ReplyService>();
 
 await builder.Build().RunAsync();

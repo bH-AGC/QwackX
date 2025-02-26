@@ -1,51 +1,51 @@
 @page "/login"
-@inject NavigationManager navigation
-@inject ILogger<LoginAuth> logger
-@inject AuthService authService
+@inject NavigationManager Navigation
+@inject ILogger<LoginAuth> Logger
+@inject IAuthRepository AuthRepository
 
 <h3>Se connecter</h3>
 
-<EditForm Model="@form" OnValidSubmit="OnSubmit">
+<EditForm Model="@Form" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
         <label for="Email">Email :</label>
-        <InputText id="Email" @bind-Value="form.Email" class="form-control" />
-        <ValidationMessage For="() => form.Email" />
+        <InputText id="Email" @bind-Value="Form.Email" class="form-control" />
+        <ValidationMessage For="() => Form.Email" />
     </div>
 
     <div class="form-group">
         <label for="Password">Mot de passe :</label>
-        <InputText id="Password" type="password" @bind-Value="form.Password" class="form-control" />
-        <ValidationMessage For="() => form.Password" />
+        <InputText id="Password" type="password" @bind-Value="Form.Password" class="form-control" />
+        <ValidationMessage For="() => Form.Password" />
     </div>
 
     <button type="submit" class="btn btn-primary">Se connecter</button>
 
-    @if (!string.IsNullOrEmpty(errorMessage))
+    @if (!string.IsNullOrEmpty(_errorMessage))
     {
-        <div class="alert alert-danger mt-2">@errorMessage</div>
+        <div class="alert alert-danger mt-2">@_errorMessage</div>
     }
 </EditForm>
 
 @code {
-    private LoginUserForm form = new LoginUserForm();
-    private string? errorMessage;
+    private LoginUserForm Form  { get; } = new();
+    private string? _errorMessage;
 
     private async Task OnSubmit()
     {
-        var result = await authService.ExecuteAsync(new LoginUserQuery(form.Email, form.Password));
+        var result = await AuthRepository.ExecuteAsync(new LoginUserQuery(Form.Email, Form.Password));
 
         if (result.IsSuccess)
         {
-            await authService.SignIn(result.Content.UserId, result.Content.Username);
-            navigation.NavigateTo("/", true);
+            await AuthRepository.SignIn(result.Content.UserId, result.Content.Username);
+            Navigation.NavigateTo("/", true);
         }
         else
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
-            errorMessage = "Nom d'utilisateur ou mot de passe incorrect";
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            _errorMessage = "Nom d'utilisateur ou mot de passe incorrect";
         }
     }
 }

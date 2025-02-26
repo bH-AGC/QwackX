@@ -1,8 +1,8 @@
 @page "/posts/create"
-@inject NavigationManager navigation
-@inject ILogger<CreatePost> logger;
-@inject AuthService authService
-@inject IPostRepository postRepository
+@inject NavigationManager Navigation
+@inject ILogger<CreatePost> Logger;
+@inject IAuthRepository AuthRepository
+@inject IPostRepository PostRepository
 
 <h3>Créer un Post</h3>
 
@@ -20,7 +20,7 @@
     </div>
     <div>
         <label for="Description">Description :</label>
-        <InputText id="Description" @bind-Value="Form.Description" class="form-control" />
+        <InputTextArea id="Description" @bind-Value="Form.Description" class="form-control" />
         <ValidationMessage For="() => Form.Description" />
     </div>
     <div>
@@ -35,20 +35,20 @@
 
     public async Task OnValidSubmit()
     {
-        var (userId, _) = await authService.GetUser();
+        var (userId, _) = await AuthRepository.GetUser();
         _userId = userId;
         
         if (_userId.HasValue)
         {
-            var result = await postRepository.ExecuteAsync(new AddPostCommand(_userId.Value, Form.Title, Form.Description));
+            var result = await PostRepository.ExecuteAsync(new AddPostCommand(_userId.Value, Form.Title, Form.Description));
 
             if (result.IsSuccess)
             {
-                navigation.NavigateTo("/posts");
+                Navigation.NavigateTo("/posts");
             }
             else
             {
-                logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+                Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             }
         }
         else

@@ -10,13 +10,13 @@ namespace QwackX.Blazor.Domain.Services;
 
 public class PostService : BaseService, IPostRepository
 {
-    public PostService(AuthService authService) : base(authService) { }
+    public PostService(IAuthRepository authRepository) : base(authRepository) { }
     
     public async Task<Result<IEnumerable<PostTitle?>>> ExecuteAsync(ListeTitlePostsQuery query)
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/posts"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
@@ -47,7 +47,7 @@ public class PostService : BaseService, IPostRepository
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/posts/{query.Id}"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
@@ -73,7 +73,7 @@ public class PostService : BaseService, IPostRepository
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             HttpContent httpContent = JsonContent.Create(command);
             using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/posts", httpContent))
             {
@@ -90,7 +90,7 @@ public class PostService : BaseService, IPostRepository
     {
         try
         {
-            await AuthService.SetAuthorizationHeader();
+            await AuthRepository.SetAuthorizationHeader();
             using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/posts/{command.PostId}"))
             {
                 return await CommandResultMessageAsync(responseMessage);

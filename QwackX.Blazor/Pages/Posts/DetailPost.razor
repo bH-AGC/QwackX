@@ -1,6 +1,8 @@
-@page "/posts/detail/{Id:int}"
-@inject ILogger<DetailPost> logger
-@inject IPostRepository postRepository
+@page "/posts/detail/{PostId:int}"
+@inject ILogger<DetailPost> Logger
+@inject IPostRepository PostRepository
+@inject IAuthRepository AuthRepository
+@inject IReplyRepository ReplyRepository
 
 <a href="/posts" class="btn btn-primary btn-sm active">← Retour à la liste</a>
 
@@ -32,34 +34,108 @@ else
         <div class="post-footer">
             <span class="icon like-icon">👍 @_post.LikeCount</span>
             <span class="icon view-icon">👁️ 1269</span>
-            <span class="icon comment-icon">💬 19</span>
+            <span class="icon comment-icon">💬 @_replies.Count()</span>
             <span class="icon time-icon">⏳ Il y a 11 heures</span>
         </div>
     </div>
-}
 
-
-
-@code {
-    [Parameter]
-    public int Id { get; set; }
-
-    private Post? _post;
-    private States _state = States.Loading;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Result<Post> result = await postRepository.ExecuteAsync(new DetailPostQuery(Id));
-
-        if (result.IsSuccess)
+    <div class="replies-section">
+        <h3>Réponses</h3>
+        @if (_replies.Any())
         {
-            _post = result.Content;
+            @foreach (var reply in _replies)
+            {
+                <div class="post-card reply-card">
+                    <div class="post-header">
+                        <div class="avatar">@reply.Author[0]</div>
+                        <div class="post-meta">
+                            <strong>@reply.Author</strong>
+                            <br />
+                            <span class="post-date">@reply.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+                        <p>@reply.Content</p>
+                    </div>
+
+                    <div class="post-footer">
+                        <span class="icon time-icon">⏳ Il y a 11 heures</span>
+                    </div>
+                </div>
+            }
         }
         else
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            <p>Aucune réponse pour l’instant.</p>
+        }
+    </div>
+
+    <div class="reply-form">
+        <h3>Répondre</h3>
+        <EditForm Model="_replyForm" OnValidSubmit="HandleReplySubmit">
+            <InputTextArea @bind-Value="_replyForm.Content" class="form-control" placeholder="Votre réponse..." />
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </EditForm>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public int PostId { get; set; }
+    
+    private int? _userId = null;
+    private Post? _post;
+    private IEnumerable<Reply?> _replies = [];
+    private States _state = States.Loading;
+    private AddReplyForm _replyForm = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var (userId, _) = await AuthRepository.GetUser();
+        _userId = userId;
+        
+        var postResult = await PostRepository.ExecuteAsync(new DetailPostQuery(PostId));
+        if (postResult.IsSuccess)
+        {
+            _post = postResult.Content;
+            var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId));
+            if (repliesResult.IsSuccess)
+            {
+                _replies = repliesResult.Content ?? [];
+            }
+            else
+            {
+                Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+            }
+        }
+        else
+        {
+            Logger.LogError($"Error : {postResult.Exception}, {postResult.ErrorMessage}");
         }
 
         _state = States.Completed;
+    }
+
+    private async Task HandleReplySubmit()
+    {
+        if (!string.IsNullOrWhiteSpace(_replyForm.Content))
+        {
+            var result = await ReplyRepository.ExecuteAsync(new AddReplyCommand(PostId, _userId.Value, _replyForm.Content));
+            if (result.IsSuccess)
+            {
+                _replyForm.Content = string.Empty;
+                var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId));
+                if (repliesResult.IsSuccess)
+                {
+                    _replies = repliesResult.Content ?? [];
+                }
+                else
+                {
+                    Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+                }
+            }
+        }
     }
 }

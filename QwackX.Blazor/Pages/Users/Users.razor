@@ -1,6 +1,6 @@
 ﻿@page "/users"
-@inject ILogger<Users> logger;
-@inject IUserRepository userRepository;
+@inject ILogger<Users> Logger;
+@inject IUserRepository UserRepository;
 
 <h3>Utilisateurs</h3>
 
@@ -40,24 +40,24 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Result<IEnumerable<User>> result = await userRepository.ExecuteAsync(new ListUsersQuery());
+        Result<IEnumerable<User>> result = await UserRepository.ExecuteAsync(new ListUsersQuery());
 
         if (result.IsFailure)
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             return;
         }
 
         _users = result.Content.ToList();
     }
 
-    public async Task OnDelete(User user)
+    private async Task OnDelete(User user)
     {
         _users!.Remove(user);
 
-        Result result = await userRepository.ExecuteAsync(new DeleteUserCommand(user.UserId));
+        Result result = await UserRepository.ExecuteAsync(new DeleteUserCommand(user.UserId));
 
         if (result.IsFailure)
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
     }
 }

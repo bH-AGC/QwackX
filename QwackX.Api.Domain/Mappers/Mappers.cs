@@ -52,7 +52,7 @@ internal static partial class Mappers
             ReplyId = (int)record["Id"],
             Content = (string)record["Content"],
             CreatedAt = (DateTime)record["CreatedAt"],
-            Username = (string)record["Username"]
+            Author = (string)record["Username"]
         };
     }
 }

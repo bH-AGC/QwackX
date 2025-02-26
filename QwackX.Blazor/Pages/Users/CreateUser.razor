@@ -1,7 +1,7 @@
 @page "/users/create"
-@inject NavigationManager navigation
-@inject ILogger<CreateUser> logger
-@inject IUserRepository userRepository
+@inject NavigationManager Navigation
+@inject ILogger<CreateUser> Logger
+@inject IUserRepository UserRepository
 
 <h3>Créer Utilisateur</h3>
 
@@ -38,13 +38,13 @@
 
     public async Task OnValidSubmit()
     {
-        Result result = await userRepository.ExecuteAsync(new AddUserCommand(Form.Username, Form.Email, Form.Password));
+        Result result = await UserRepository.ExecuteAsync(new AddUserCommand(Form.Username, Form.Email, Form.Password));
 
         if (result.IsSuccess)
-            navigation.NavigateTo("/users");
+            Navigation.NavigateTo("/users");
         else
         {
-            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             _message = "Quelque chose s'est mal passé...";
         }
     }
