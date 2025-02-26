@@ -1,5 +1,6 @@
 @inject IUserRepository userRepository
 @inject NavigationManager navigation
+@inject Logger<CreateUser> logger
 
 @page "/users/create"
 
@@ -44,6 +45,9 @@
         if (result.IsSuccess)
             navigation.NavigateTo("/users");
         else
+        {
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             _message = "Quelque chose s'est mal passé...";
+        }
     }
 }

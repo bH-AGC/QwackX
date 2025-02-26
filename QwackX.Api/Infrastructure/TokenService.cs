@@ -17,8 +17,6 @@ namespace QwackX.Api.Infrastructure
         {
             _configuration = configuration;
             _httpContext = httpContext;
-
-            Console.WriteLine("✅ TokenService instancié !");
         }
 
         public UserDto? User
@@ -78,8 +76,6 @@ namespace QwackX.Api.Infrastructure
             StringValues autorisations = httpContext.Request.Headers["Authorization"];
 
             string? token = autorisations.SingleOrDefault(a => a.StartsWith(prefix));
-            
-            Console.WriteLine("EXTRACT TOKEN : "+ token);
 
             if (token is null)
                 return null;
@@ -89,8 +85,6 @@ namespace QwackX.Api.Infrastructure
 
         private UserDto ExtractDataFromToken(string token)
         {
-            Console.WriteLine("TOKEN : "+ token);
-            
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             JwtSecurityToken? jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 

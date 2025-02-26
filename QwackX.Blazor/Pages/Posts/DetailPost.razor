@@ -49,15 +49,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Result<Post> queryResult = await postRepository.ExecuteAsync(new DetailPostQuery(Id));
+        Result<Post> result = await postRepository.ExecuteAsync(new DetailPostQuery(Id));
 
-        if (queryResult.IsFailure)
+        if (result.IsSuccess)
         {
-            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            _post = result.Content;
         }
         else
         {
-            _post = queryResult.Content;
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
         }
 
         _state = States.Completed;

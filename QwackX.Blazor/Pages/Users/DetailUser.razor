@@ -28,17 +28,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Result<User> queryResult = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
+        Result<User> result = await userRepository.ExecuteAsync(new DetailUserQuery(Id));
 
-        if (queryResult.IsFailure)
+        if (result.IsSuccess)
         {
-            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            _user = result.Content;
         }
         else
         {
-            _user = queryResult.Content;
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
         }
-
+        
         _state = States.Completed;
     }
 }

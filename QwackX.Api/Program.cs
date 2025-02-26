@@ -24,9 +24,6 @@ builder.Services.AddCors(options => options.AddPolicy(policyName,
 
 builder.Services.AddControllers();
 
-
-Console.WriteLine("KEYS " + configuration["JwtSettings:SecretKey"]);
-
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

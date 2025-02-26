@@ -17,7 +17,6 @@ namespace QwackX.Blazor.Domain.Services
             try
             {
                 await AuthService.SetAuthorizationHeader();
-                Console.WriteLine($"Authorization: {HttpClient.DefaultRequestHeaders.Authorization}");
 
                 using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/users"))
                 {

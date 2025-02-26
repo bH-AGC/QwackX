@@ -1,6 +1,7 @@
 @page "/register"
 @inject AuthService authService
 @inject NavigationManager navigation
+@inject Logger<RegisterAuth> logger
 
 <h3>S'inscrire</h3>
 
@@ -54,6 +55,7 @@
         }
         else
         {
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             errorMessage = "Une erreur est survenue lors de l'inscription.";
         }
     }

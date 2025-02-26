@@ -1,6 +1,7 @@
 @inject IPostRepository postRepository
 @inject NavigationManager navigation
 @inject AuthService authService
+@inject ILogger<CreatePost> logger;
 
 @page "/posts/create"
 
@@ -41,13 +42,19 @@
         if (_userId.HasValue)
         {
             var result = await postRepository.ExecuteAsync(new AddPostCommand(_userId.Value, Form.Title, Form.Description));
-        
+
             if (result.IsSuccess)
+            {
                 navigation.NavigateTo("/posts");
+            }
+            else
+            {
+                logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            }
         }
         else
         {
-            _message = "Quelque chose s'est mal passé...";
+            _message = "Merci de vous reloger...";
         }
     }
 }

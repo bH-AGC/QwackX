@@ -40,15 +40,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Result<IEnumerable<User>> queryResult = await userRepository.ExecuteAsync(new ListUsersQuery());
+        Result<IEnumerable<User>> result = await userRepository.ExecuteAsync(new ListUsersQuery());
 
-        if (queryResult.IsFailure)
+        if (result.IsFailure)
         {
-            logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             return;
         }
 
-        _users = queryResult.Content.ToList();
+        _users = result.Content.ToList();
     }
 
     public async Task OnDelete(User user)
@@ -58,6 +58,6 @@
         Result result = await userRepository.ExecuteAsync(new DeleteUserCommand(user.UserId));
 
         if (result.IsFailure)
-            logger.LogError(result.ErrorMessage);
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
     }
 }

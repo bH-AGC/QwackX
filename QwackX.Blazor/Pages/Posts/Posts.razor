@@ -63,6 +63,6 @@
         Result result = await postRepository.ExecuteAsync(new DeletePostCommand(post.PostId));
 
         if (result.IsFailure)
-            logger.LogError(result.ErrorMessage);
+            logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
     }
 }
