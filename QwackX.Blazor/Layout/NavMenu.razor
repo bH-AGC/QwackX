@@ -69,6 +69,7 @@
     {
         await authService.SignOut();
         await LoadUser();
+        navigation.NavigateTo("/", true);
     }
 
     private async Task LoadUser()

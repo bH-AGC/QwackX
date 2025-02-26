@@ -1,14 +1,27 @@
+using CommandQuerySeparation.Results;
+
 namespace QwackX.Blazor.Domain.Services
 {
     public abstract class BaseService
     {
-        protected readonly HttpClient _httpClient;
-        protected readonly AuthService _authService;
+        protected readonly HttpClient HttpClient;
+        protected readonly AuthService AuthService;
 
-        protected BaseService(IHttpClientFactory httpClientFactory, AuthService authService)
+        protected BaseService(AuthService authService)
         {
-            _httpClient = authService.httpClient;
-            _authService = authService;
+            HttpClient = authService.HttpClient;
+            AuthService = authService;
+        }
+        
+        protected static async Task<Result> CommandResultMessageAsync(HttpResponseMessage responseMessage)
+        {
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                string errorResponse = await responseMessage.Content.ReadAsStringAsync();
+                return Result.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
+            }
+
+            return Result.Success();
         }
     }
 }

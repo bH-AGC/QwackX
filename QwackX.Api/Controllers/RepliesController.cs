@@ -2,6 +2,7 @@ using CommandQuerySeparation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
+using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
 using QwackX.Api.Models.Dtos;
@@ -24,7 +25,7 @@ namespace QwackX.Api.Controllers
         [HttpGet("{postId}")]
         public IActionResult Get(int postId)
         {
-            var result = _replyRepository.Execute(new ListPostRepliesQuery(postId));
+            Result<IEnumerable<Reply?>> result = _replyRepository.Execute(new ListPostRepliesQuery(postId));
 
             if (result.IsSuccess)
             {
@@ -40,7 +41,7 @@ namespace QwackX.Api.Controllers
         [HttpPost]
         public IActionResult Post(AddReplyDto dto)
         {
-            var command = new AddReplyCommand(dto.PostId, dto.UserId, dto.Content);
+            AddReplyCommand command = new AddReplyCommand(dto.PostId, dto.UserId, dto.Content);
             Result result = _replyRepository.Execute(command);
 
             if (result.IsFailure)

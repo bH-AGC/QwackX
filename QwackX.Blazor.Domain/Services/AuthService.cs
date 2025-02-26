@@ -14,20 +14,20 @@ namespace QwackX.Blazor.Domain.Services
     public class AuthService : IAuthRepository
     {
         private readonly ILocalStorageService _localStorage;
-        public HttpClient httpClient { get; }
+        public HttpClient HttpClient { get; }
         private const string UserIdKey = "userId";
         private const string UsernameKey = "username";
         private const string UserTokenKey = "userToken";
 
         public AuthService(ILocalStorageService localStorage, IHttpClientFactory httpClientFactory)
         {
-            _localStorage = localStorage;
-            httpClient = httpClientFactory.CreateClient("Default");
+            this._localStorage = localStorage;
+            HttpClient = httpClientFactory.CreateClient("Default");
         }
         
         public async Task<bool> IsAuthenticatedAsync()
         {
-            var token = await _localStorage.GetItemAsync<string>(UserTokenKey);
+            string? token = await _localStorage.GetItemAsync<string>(UserTokenKey);
             return !string.IsNullOrEmpty(token);
         }
 
@@ -51,8 +51,8 @@ namespace QwackX.Blazor.Domain.Services
 
         public async Task<(int? UserId, string? Username)> GetUser()
         {
-            var userId = await _localStorage.GetItemAsync<int?>(UserIdKey);
-            var username = await _localStorage.GetItemAsync<string>(UsernameKey);
+            int? userId = await _localStorage.GetItemAsync<int?>(UserIdKey);
+            string? username = await _localStorage.GetItemAsync<string>(UsernameKey);
             return (userId, username);
         }
 
@@ -61,7 +61,7 @@ namespace QwackX.Blazor.Domain.Services
             string? token = await _localStorage.GetItemAsync<string>(UserTokenKey);
             if (!string.IsNullOrEmpty(token))
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 return Result.Success();
             }
             
@@ -75,7 +75,7 @@ namespace QwackX.Blazor.Domain.Services
                 string jsonPayload = JsonSerializer.Serialize(query);
                 HttpContent httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-                using (HttpResponseMessage responseMessage = await httpClient.PostAsync("api/auth/login", httpContent))
+                using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/auth/login", httpContent))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
                     {
@@ -87,7 +87,6 @@ namespace QwackX.Blazor.Domain.Services
                     User? user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
                     string? token = JsonSerializer.Deserialize<JsonElement>(json).GetProperty("token").GetString()?.Trim('"');
                     
-                    Console.WriteLine($"TOKEN : {token}");
                     await _localStorage.SetItemAsync(UserTokenKey, token);
                     
                     return Result<User>.Success(user);
@@ -104,11 +103,15 @@ namespace QwackX.Blazor.Domain.Services
             try
             {
                 HttpContent httpContent = JsonContent.Create(command);
-                using (HttpResponseMessage responseMessage = await httpClient.PostAsync("api/auth/register", httpContent))
+                using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/auth/register", httpContent))
                 {
-                    return responseMessage.IsSuccessStatusCode 
-                        ? Result.Success() 
-                        : Result.Failure($"Code de l'api : {responseMessage.StatusCode}");
+                    if (!responseMessage.IsSuccessStatusCode)
+                    {
+                        string errorResponse = await responseMessage.Content.ReadAsStringAsync();
+                        return Result.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
+                    }
+
+                    return Result.Success();
                 }
             }
             catch (Exception ex)

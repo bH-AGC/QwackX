@@ -11,20 +11,20 @@ namespace QwackX.Blazor.Domain.Services
 {
     public class UserService : BaseService, IUserRepository
     {
-        public UserService(IHttpClientFactory httpClientFactory, AuthService authService)
-            : base(httpClientFactory, authService) { }
+        public UserService(AuthService authService) : base(authService) { }
         public async Task<Result<IEnumerable<User>>> ExecuteAsync(ListUsersQuery query)
         {
             try
             {
-                await _authService.SetAuthorizationHeader();
-                Console.WriteLine($"Authorization: {_httpClient.DefaultRequestHeaders.Authorization}");
+                await AuthService.SetAuthorizationHeader();
+                Console.WriteLine($"Authorization: {HttpClient.DefaultRequestHeaders.Authorization}");
 
-                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync("api/users"))
+                using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/users"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
                     {
-                        return Result<IEnumerable<User>>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}");
+                        string errorResponse = await responseMessage.Content.ReadAsStringAsync();
+                        return Result<IEnumerable<User>>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
                     }
 
                     string json = await responseMessage.Content.ReadAsStringAsync();
@@ -45,19 +45,19 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await _authService.SetAuthorizationHeader();
-                using (HttpResponseMessage responseMessage = await _httpClient.GetAsync($"api/users/{query.Id}"))
+                await AuthService.SetAuthorizationHeader();
+                using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/users/{query.Id}"))
                 {
                     if (!responseMessage.IsSuccessStatusCode)
                     {
-                        return Result<User>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}");
+                        string errorResponse = await responseMessage.Content.ReadAsStringAsync();
+                        return Result<User>.Failure($"Code de l'api : {(int)responseMessage.StatusCode}, Réponse : {errorResponse}");
                     }
 
                     string json = await responseMessage.Content.ReadAsStringAsync();
+                    User user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
 
-                    User _user = JsonSerializer.Deserialize<User>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
-
-                    return Result<User>.Success(_user);
+                    return Result<User>.Success(user);
                 }
             }
             catch (Exception ex)
@@ -70,13 +70,11 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await _authService.SetAuthorizationHeader();
+                await AuthService.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
-                using (HttpResponseMessage responseMessage = await _httpClient.PostAsync("api/users", httpContent))
+                using (HttpResponseMessage responseMessage = await HttpClient.PostAsync("api/users", httpContent))
                 {
-                    return responseMessage.IsSuccessStatusCode 
-                        ? Result.Success() 
-                        : Result.Failure($"Code de l'api : {responseMessage.StatusCode}");
+                    return await CommandResultMessageAsync(responseMessage);
                 }
             }
             catch (Exception ex)
@@ -89,18 +87,12 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await _authService.SetAuthorizationHeader();
+                await AuthService.SetAuthorizationHeader();
                 HttpContent httpContent = JsonContent.Create(command);
-
-                using (HttpResponseMessage responseMessage = await _httpClient.PutAsync($"api/users", httpContent))
+                using (HttpResponseMessage responseMessage = await HttpClient.PutAsync($"api/users", httpContent))
                 {
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        return Result.Success();
-                    }
-                    return Result.Failure($"Code de l'api : {responseMessage.StatusCode}");
+                    return await CommandResultMessageAsync(responseMessage);
                 }
-
             }
             catch (Exception ex)
             {
@@ -112,12 +104,10 @@ namespace QwackX.Blazor.Domain.Services
         {
             try
             {
-                await _authService.SetAuthorizationHeader();
-                using (HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"api/users/{command.Id}"))
+                await AuthService.SetAuthorizationHeader();
+                using (HttpResponseMessage responseMessage = await HttpClient.DeleteAsync($"api/users/{command.UserId}"))
                 {
-                    return responseMessage.IsSuccessStatusCode 
-                        ? Result.Success() 
-                        : Result.Failure($"Code de l'api : {(int)responseMessage.StatusCode}");
+                    return await CommandResultMessageAsync(responseMessage);
                 }
             }
             catch (Exception ex)

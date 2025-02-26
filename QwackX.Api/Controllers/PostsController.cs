@@ -1,6 +1,8 @@
+using CommandQuerySeparation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
+using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
 using QwackX.Api.Models.Dtos;
@@ -23,7 +25,7 @@ namespace QwackX.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _postRepository.Execute(new ListeTitlePostsQuery());
+            Result<IEnumerable<PostTitle?>> result = _postRepository.Execute(new ListeTitlePostsQuery());
 
             if (result.IsSuccess)
             {
@@ -39,7 +41,7 @@ namespace QwackX.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var result = _postRepository.Execute(new DetailPostQuery(id));
+            Result<Post> result = _postRepository.Execute(new DetailPostQuery(id));
 
             if (result.IsSuccess)
             {
@@ -55,8 +57,8 @@ namespace QwackX.Api.Controllers
         [HttpPost]
         public IActionResult Post(AddPostDto dto)
         {
-            var command = new AddPostCommand(dto.UserId, dto.Title, dto.Description);
-            var result = _postRepository.Execute(command);
+            AddPostCommand command = new AddPostCommand(dto.UserId, dto.Title, dto.Description);
+            Result result = _postRepository.Execute(command);
     
             if (result.IsFailure)
                 return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
@@ -68,7 +70,7 @@ namespace QwackX.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var result = _postRepository.Execute(new DeletePostCommand(id));
+            Result result = _postRepository.Execute(new DeletePostCommand(id));
 
             if (result.IsFailure)
                 return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");

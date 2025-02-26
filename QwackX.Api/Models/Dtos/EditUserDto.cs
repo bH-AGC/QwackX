@@ -5,7 +5,7 @@ namespace QwackX.Api.Models.Dtos;
 public class EditUserDto
 {
     [Required]
-    public int Id { get; set; }
+    public int UserId { get; set; }
         
     [Required]
     [StringLength(50, MinimumLength = 3)]

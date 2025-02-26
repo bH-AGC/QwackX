@@ -1,6 +1,8 @@
+using CommandQuerySeparation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
+using QwackX.Api.Domain.Entities;
 using QwackX.Api.Domain.Queries;
 using QwackX.Api.Domain.Repositories;
 using QwackX.Api.Models.Dtos;
@@ -23,7 +25,7 @@ namespace QwackX.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _userRepository.Execute(new ListUsersQuery());
+            Result<IEnumerable<User?>> result = _userRepository.Execute(new ListUsersQuery());
 
             if (result.IsSuccess)
             {
@@ -39,7 +41,7 @@ namespace QwackX.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var result = _userRepository.Execute(new DetailUserQuery(id));
+            Result<User?> result = _userRepository.Execute(new DetailUserQuery(id));
 
             if (result.IsSuccess)
             {
@@ -55,11 +57,8 @@ namespace QwackX.Api.Controllers
         [HttpPost]
         public IActionResult Post(AddUserDto dto)
         {
-            // // Hachage du mot de passe
-            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
-            var command = new AddUserCommand(dto.Username, dto.Email, dto.Password);
-            var result = _userRepository.Execute(command);
+            AddUserCommand command = new AddUserCommand(dto.Username, dto.Email, dto.Password);
+            Result result = _userRepository.Execute(command);
     
             if (result.IsFailure)
                 return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
@@ -72,9 +71,7 @@ namespace QwackX.Api.Controllers
         [HttpPatch]
         public IActionResult Put(EditUserDto dto)
         {
-            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-            //
-            var result = _userRepository.Execute(new EditUserCommand(dto.Id, dto.Username, dto.Email, dto.Password));
+            Result result = _userRepository.Execute(new EditUserCommand(dto.UserId, dto.Username, dto.Email, dto.Password));
             if(result.IsFailure)
                 return BadRequest(dto);
 
@@ -85,7 +82,7 @@ namespace QwackX.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var result = _userRepository.Execute(new DeleteUserCommand(id));
+            Result result = _userRepository.Execute(new DeleteUserCommand(id));
 
             if (result.IsFailure)
                 return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");

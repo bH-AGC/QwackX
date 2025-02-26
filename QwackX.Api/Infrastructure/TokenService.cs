@@ -49,7 +49,7 @@ namespace QwackX.Api.Infrastructure
                     audience: _configuration["Audience"],
                     claims:
                     [
-                        new Claim("Id", user.Id.ToString()),
+                        new Claim("UserId", user.UserId.ToString()),
                         new Claim("Username", user.Username),
                         new Claim("Email", user.Email),
                         // new Claim("CreatedAt", user.CreateAt.ToString("yyyy-MM-dd HH:mm:ss")),
@@ -106,7 +106,7 @@ namespace QwackX.Api.Infrastructure
             // }
             return new UserDto()
             {
-                Id = int.Parse(payload["Id"].ToString()),
+                UserId = int.Parse(payload["UserId"].ToString()),
                 Username = (string)payload["Username"],
                 Email = (string)payload["Email"],
                 // CreateAt = createdAt,

@@ -3,11 +3,11 @@ namespace QwackX.Blazor.Domain.Commands
 {
     public class DeleteUserCommand : ICommandDefinition
     {
-        public int Id { get; }
+        public int UserId { get; }
 
-        public DeleteUserCommand(int id)
+        public DeleteUserCommand(int userId)
         {
-            Id = id;
+            UserId = userId;
         }
     }
 }
