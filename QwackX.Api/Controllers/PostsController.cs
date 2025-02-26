@@ -22,7 +22,7 @@ namespace QwackX.Api.Controllers
         }
         
         // GET: api/posts
-        [HttpGet]
+        [HttpGet("titles")]
         public IActionResult Get()
         {
             Result<IEnumerable<PostTitle?>> result = _postRepository.Execute(new ListeTitlePostsQuery());

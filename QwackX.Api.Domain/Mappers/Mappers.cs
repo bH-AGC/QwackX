@@ -52,7 +52,8 @@ internal static partial class Mappers
             ReplyId = (int)record["Id"],
             Content = (string)record["Content"],
             CreatedAt = (DateTime)record["CreatedAt"],
-            Author = (string)record["Username"]
+            Author = (string)record["Username"],
+            LikeCount = (int)record["LikeCount"],
         };
     }
 }

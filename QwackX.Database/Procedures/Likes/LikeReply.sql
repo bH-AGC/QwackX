@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[LikePost]
+CREATE PROCEDURE [dbo].[LikeReply]
     @UserId INT,
     @EntityId INT,
     @EntityType NVARCHAR(50)

@@ -6,5 +6,6 @@ namespace QwackX.Api.Domain.Entities
         public required string Author { get; set; }
         public string Content { get; set; } = default!;
         public DateTime CreatedAt { get; set; }
+        public int LikeCount { get; set; }
     }
 }
