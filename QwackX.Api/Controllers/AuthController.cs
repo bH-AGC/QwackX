@@ -39,7 +39,7 @@ namespace QwackX.Api.Controllers
 
                 if (result.IsFailure)
                 {
-                    return BadRequest(result);
+                    return BadRequest(new { result.ErrorMessage });
                 }
 
                 UserDto userDto = result.Content.ToUserDto();
@@ -56,14 +56,21 @@ namespace QwackX.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterUserDto dto)
         {
-            Result result = _authRepository.Execute(new RegisterUserCommand(dto.Username, dto.Email, dto.Password));
-            
-            if(result.IsFailure)
+            try
             {
-                return BadRequest(new { result.ErrorMessage });
+                Result result = _authRepository.Execute(new RegisterUserCommand(dto.Username, dto.Email, dto.Password));
+
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { result.ErrorMessage });
+                }
+                
+                return NoContent();
             }
-            
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest($"Erreur lors de l'exécution de la requête: {ex.Message}");
+            }
         }
     }
 }

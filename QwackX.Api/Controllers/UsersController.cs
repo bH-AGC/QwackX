@@ -49,7 +49,7 @@ namespace QwackX.Api.Controllers
             }
             else
             {
-                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
             }
         }
 
@@ -61,7 +61,7 @@ namespace QwackX.Api.Controllers
             Result result = _userRepository.Execute(command);
     
             if (result.IsFailure)
-                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
 
             return NoContent();
         }
@@ -73,7 +73,7 @@ namespace QwackX.Api.Controllers
         {
             Result result = _userRepository.Execute(new EditUserCommand(dto.UserId, dto.Username, dto.Email, dto.Password));
             if(result.IsFailure)
-                return BadRequest(dto);
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
 
             return NoContent();
         }
@@ -85,7 +85,7 @@ namespace QwackX.Api.Controllers
             Result result = _userRepository.Execute(new DeleteUserCommand(id));
 
             if (result.IsFailure)
-                return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
             ;
 
             return NoContent();

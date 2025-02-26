@@ -33,7 +33,7 @@ namespace QwackX.Api.Controllers
             }
             else
             {
-                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
             }
         }
 
@@ -45,7 +45,7 @@ namespace QwackX.Api.Controllers
             Result result = _replyRepository.Execute(command);
 
             if (result.IsFailure)
-                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
 
             return NoContent();
         }
@@ -57,7 +57,7 @@ namespace QwackX.Api.Controllers
             Result result = _replyRepository.Execute(new DeleteReplyCommand(id));
 
             if (result.IsFailure)
-                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}");
+                return BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
 
             return NoContent();
         }
