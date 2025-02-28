@@ -3,6 +3,7 @@
 @inject IPostRepository PostRepository
 @inject IAuthRepository AuthRepository
 @inject IReplyRepository ReplyRepository
+@inject ILikeRepository LikeRepository
 
 <a href="/posts" class="btn btn-primary btn-sm active">← Retour à la liste</a>
 
@@ -32,7 +33,7 @@ else
         </div>
 
         <div class="post-footer">
-            <span class="icon like-icon">👍 @_post.LikeCount</span>
+            <button class="icon like-icon" @onclick='() => HandleLike(_post.PostId, "Post")'>👍 @_post.LikeCount</button>
             <span class="icon view-icon">👁️ 1269</span>
             <span class="icon comment-icon">💬 @_replies.Count()</span>
             <span class="icon time-icon">⏳ Il y a 11 heures</span>
@@ -60,6 +61,7 @@ else
                     </div>
 
                     <div class="post-footer">
+                        <button class="icon like-icon" @onclick='() => HandleLike(reply.ReplyId, "Reply")'>👍 @reply.LikeCount</button>
                         <span class="icon time-icon">⏳ Il y a 11 heures</span>
                     </div>
                 </div>
@@ -70,32 +72,22 @@ else
             <p>Aucune réponse pour l’instant.</p>
         }
     </div>
-
-    <div class="reply-form">
-        <h3>Répondre</h3>
-        <EditForm Model="_replyForm" OnValidSubmit="HandleReplySubmit">
-            <InputTextArea @bind-Value="_replyForm.Content" class="form-control" placeholder="Votre réponse..." />
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </EditForm>
-    </div>
 }
 
 @code {
-
     [Parameter]
     public int PostId { get; set; }
-    
+
     private int? _userId = null;
     private Post? _post;
     private IEnumerable<Reply?> _replies = [];
     private States _state = States.Loading;
-    private AddReplyForm _replyForm = new();
 
     protected override async Task OnInitializedAsync()
     {
         var (userId, _) = await AuthRepository.GetUser();
         _userId = userId;
-        
+
         var postResult = await PostRepository.ExecuteAsync(new DetailPostQuery(PostId));
         if (postResult.IsSuccess)
         {
@@ -118,23 +110,30 @@ else
         _state = States.Completed;
     }
 
-    private async Task HandleReplySubmit()
+    private async Task HandleLike(int entityId, string entityType)
     {
-        if (!string.IsNullOrWhiteSpace(_replyForm.Content))
+        if (_userId.HasValue)
         {
-            var result = await ReplyRepository.ExecuteAsync(new AddReplyCommand(PostId, _userId.Value, _replyForm.Content));
+            var command = new LikeCommand(_userId.Value, entityId, entityType);
+            var result = await LikeRepository.ExecuteAsync(command);
             if (result.IsSuccess)
             {
-                _replyForm.Content = string.Empty;
-                var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId));
-                if (repliesResult.IsSuccess)
+                if (entityType == "Post")
                 {
-                    _replies = repliesResult.Content ?? [];
+                    _post.LikeCount++;
                 }
                 else
                 {
-                    Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+                    var reply = _replies.FirstOrDefault(r => r.ReplyId == entityId);
+                    if (reply != null)
+                    {
+                        reply.LikeCount++;
+                    }
                 }
+            }
+            else
+            {
+                Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             }
         }
     }

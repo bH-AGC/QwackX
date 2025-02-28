@@ -27,7 +27,8 @@ internal static partial class Mappers
             CreatedAt = (DateTime)record["CreatedAt"],
             Author = (string)record["Username"],
             LikeCount = (int)record["LikeCount"],
-            ReplyCount = (int)record["ReplyCount"]
+            ReplyCount = (int)record["ReplyCount"],
+            IsLiked = (int)record["IsLiked"] == 1
         };
     }
     
@@ -42,6 +43,7 @@ internal static partial class Mappers
             Author = (string)record["Username"],
             UserId = (int)record["UserId"],
             LikeCount = (int)record["LikeCount"],
+            IsLiked = (int)record["IsLiked"] == 1
         };
     }
     
@@ -54,6 +56,7 @@ internal static partial class Mappers
             CreatedAt = (DateTime)record["CreatedAt"],
             Author = (string)record["Username"],
             LikeCount = (int)record["LikeCount"],
+            IsLiked = (int)record["IsLiked"] == 1
         };
     }
 }

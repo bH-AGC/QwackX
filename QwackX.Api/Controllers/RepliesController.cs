@@ -23,9 +23,9 @@ namespace QwackX.Api.Controllers
 
         // GET: api/replies
         [HttpGet("{postId}")]
-        public IActionResult Get(int postId)
+        public IActionResult Get(int postId, int userId)
         {
-            Result<IEnumerable<Reply?>> result = _replyRepository.Execute(new ListPostRepliesQuery(postId));
+            Result<IEnumerable<Reply?>> result = _replyRepository.Execute(new ListPostRepliesQuery(postId, userId));
 
             if (result.IsSuccess)
             {

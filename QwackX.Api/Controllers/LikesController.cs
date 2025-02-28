@@ -19,8 +19,8 @@ public class LikesController : Controller
         _likeRepository = likeRepository;
     }
     
-    // POST: api/likePost
-    [HttpPost("like")]
+    // POST: api/like
+    [HttpPost]
     public IActionResult Post(LikeDto dto)
     {
         LikeCommand command = new LikeCommand(dto.UserId, dto.EntityId, dto.EntityType);

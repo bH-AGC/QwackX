@@ -20,5 +20,6 @@ builder.Services.AddScoped<IAuthRepository, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
 builder.Services.AddScoped<IPostRepository, PostService>();
 builder.Services.AddScoped<IReplyRepository, ReplyService>();
+builder.Services.AddScoped<ILikeRepository, LikeService>();
 
 await builder.Build().RunAsync();

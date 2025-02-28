@@ -13,28 +13,28 @@ namespace QwackX.Api.Domain.Services
     {
         public PostService(DbConnection dbConnection) : base(dbConnection) { }
         
-        public Result<IEnumerable<PostTitle>> Execute(ListeTitlePostsQuery query)
+        public Result<IEnumerable<PostTitle?>> Execute(ListeTitlePostsQuery query)
         {
             try
             {
-                IEnumerable<PostTitle?> postTitles = DbConnection.ExecuteReader("[dbo].[ListPostsTitles]", dr => dr.ToPostTitle(), true);
-
+                IEnumerable<PostTitle?> postTitles = DbConnection.ExecuteReader("[dbo].[ListPostsTitles]", dr => dr.ToPostTitle(), true, query).ToList();
+                
                 if (postTitles.Any())
                 {
-                    return Result<IEnumerable<PostTitle>>.Success(postTitles);
+                    return Result<IEnumerable<PostTitle?>>.Success(postTitles);
                 }
                 else
                 {
-                    return Result<IEnumerable<PostTitle>>.Failure("No Posts Found");
+                    return Result<IEnumerable<PostTitle?>>.Failure("No Posts Found");
                 }
             }
             catch (Exception ex)
             {
-                return Result<IEnumerable<PostTitle>>.Failure($"Code de retour : {ex.Message}");
+                return Result<IEnumerable<PostTitle?>>.Failure($"Code de retour : {ex.Message}");
             }
         }
         
-        public Result<Post> Execute(DetailPostQuery query)
+        public Result<Post?> Execute(DetailPostQuery query)
         {
             try
             {
@@ -42,16 +42,16 @@ namespace QwackX.Api.Domain.Services
 
                 if (post is null)
                 {
-                    return Result<Post>.Failure("No Post Found");
+                    return Result<Post?>.Failure("No Post Found");
                 }
                 else
                 {
-                    return Result<Post>.Success(post);
+                    return Result<Post?>.Success(post);
                 }
             }
             catch (Exception ex)
             {
-                return Result<Post>.Failure($"Code de retour : {ex.Message}");
+                return Result<Post?>.Failure($"Code de retour : {ex.Message}");
             }
         }
         

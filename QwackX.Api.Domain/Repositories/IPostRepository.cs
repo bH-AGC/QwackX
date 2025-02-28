@@ -8,7 +8,7 @@ namespace QwackX.Api.Domain.Repositories;
 
 public interface IPostRepository : 
     IQueryHandler<ListeTitlePostsQuery, IEnumerable<PostTitle?>>,
-    IQueryHandler<DetailPostQuery, Post>,
+    IQueryHandler<DetailPostQuery, Post?>,
     ICommandHandler<AddPostCommand>,
     ICommandHandler<DeletePostCommand>
 {

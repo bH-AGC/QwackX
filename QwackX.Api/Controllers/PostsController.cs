@@ -22,10 +22,10 @@ namespace QwackX.Api.Controllers
         }
         
         // GET: api/posts
-        [HttpGet("titles")]
-        public IActionResult Get()
+        [HttpGet]
+        public IActionResult Get(int userId)
         {
-            Result<IEnumerable<PostTitle?>> result = _postRepository.Execute(new ListeTitlePostsQuery());
+            Result<IEnumerable<PostTitle?>> result = _postRepository.Execute(new ListeTitlePostsQuery(userId));
 
             if (result.IsSuccess)
             {
@@ -38,10 +38,10 @@ namespace QwackX.Api.Controllers
         }
         
         // GET: api/posts
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{postId}")]
+        public IActionResult Get(int postId, int userId)
         {
-            Result<Post> result = _postRepository.Execute(new DetailPostQuery(id));
+            Result<Post?> result = _postRepository.Execute(new DetailPostQuery(postId, userId));
 
             if (result.IsSuccess)
             {
