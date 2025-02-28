@@ -5,10 +5,13 @@ namespace QwackX.Blazor.Domain.Queries;
 
 public class DetailPostQuery : IQueryDefinition<Post>
 {
-    public int Id { get; }
+    public int PostId { get; }
+    
+    public int UserId { get; }
 
-    public DetailPostQuery(int id)
+    public DetailPostQuery(int postId, int userId)
     {
-        Id = id;
+        PostId = postId;
+        UserId = userId;
     }
 }

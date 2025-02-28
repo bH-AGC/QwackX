@@ -8,16 +8,17 @@ public class Reply
     public required string Author { get; set; }
     public string Content { get; set; } = default!;
     public DateTime CreatedAt { get; set; }
-    
     public int LikeCount { get; set; }
+    public bool IsLiked { get; set; }
 
     [JsonConstructor]
-    public Reply(int replyId, string author, string content, DateTime createdAt, int likeCount)
+    public Reply(int replyId, string author, string content, DateTime createdAt, int likeCount, bool isLiked)
     {
         ReplyId = replyId;
         Author = author;
         Content = content;
         CreatedAt = createdAt;
         LikeCount = likeCount;
+        IsLiked = isLiked;
     }
 }

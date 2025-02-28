@@ -33,7 +33,9 @@ else
         </div>
 
         <div class="post-footer">
-            <button class="icon like-icon" @onclick='() => HandleLike(_post.PostId, "Post")'>👍 @_post.LikeCount</button>
+            <button class="icon like-icon @( _post.IsLiked ? "liked" : "" )" @onclick='() => HandleLike(_post.PostId, "Post")'>
+                👍 @_post.LikeCount
+            </button>
             <span class="icon view-icon">👁️ 1269</span>
             <span class="icon comment-icon">💬 @_replies.Count()</span>
             <span class="icon time-icon">⏳ Il y a 11 heures</span>
@@ -61,7 +63,9 @@ else
                     </div>
 
                     <div class="post-footer">
-                        <button class="icon like-icon" @onclick='() => HandleLike(reply.ReplyId, "Reply")'>👍 @reply.LikeCount</button>
+                        <button class="icon like-icon @( reply.IsLiked ? "liked" : "" )" @onclick='() => HandleLike(reply.ReplyId, "Reply")'>
+                            👍 @reply.LikeCount
+                        </button>
                         <span class="icon time-icon">⏳ Il y a 11 heures</span>
                     </div>
                 </div>
@@ -88,23 +92,27 @@ else
         var (userId, _) = await AuthRepository.GetUser();
         _userId = userId;
 
-        var postResult = await PostRepository.ExecuteAsync(new DetailPostQuery(PostId));
-        if (postResult.IsSuccess)
+        if (_userId.HasValue)
         {
-            _post = postResult.Content;
-            var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId));
-            if (repliesResult.IsSuccess)
+            var postResult = await PostRepository.ExecuteAsync(new DetailPostQuery(PostId, _userId.Value));
+            if (postResult.IsSuccess)
             {
-                _replies = repliesResult.Content ?? [];
+                _post = postResult.Content;
+
+                var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId, _userId.Value));
+                if (repliesResult.IsSuccess)
+                {
+                    _replies = repliesResult.Content ?? [];
+                }
+                else
+                {
+                    Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+                }
             }
             else
             {
-                Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+                Logger.LogError($"Error : {postResult.Exception}, {postResult.ErrorMessage}");
             }
-        }
-        else
-        {
-            Logger.LogError($"Error : {postResult.Exception}, {postResult.ErrorMessage}");
         }
 
         _state = States.Completed;
@@ -118,16 +126,18 @@ else
             var result = await LikeRepository.ExecuteAsync(command);
             if (result.IsSuccess)
             {
-                if (entityType == "Post")
+                if (entityType == "Post" && _post != null)
                 {
-                    _post.LikeCount++;
+                    _post.IsLiked = !_post.IsLiked;
+                    _post.LikeCount += _post.IsLiked ? 1 : -1;
                 }
                 else
                 {
                     var reply = _replies.FirstOrDefault(r => r.ReplyId == entityId);
                     if (reply != null)
                     {
-                        reply.LikeCount++;
+                        reply.IsLiked = !reply.IsLiked;
+                        reply.LikeCount += reply.IsLiked ? 1 : -1;
                     }
                 }
             }

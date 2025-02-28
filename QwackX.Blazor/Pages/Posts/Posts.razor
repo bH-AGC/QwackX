@@ -1,6 +1,8 @@
 @page "/posts"
 @inject ILogger<Posts> Logger
 @inject IPostRepository PostRepository
+@inject IAuthRepository AuthRepository
+@inject ILikeRepository LikeRepository
 
 <h3>Titres des posts</h3>
 
@@ -17,7 +19,7 @@
             <th scope="col">Créé le</th>
             <th scope="col">J'aime</th>
             <th scope="col">Réponses</th>
-            <th scope="col"></th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -28,7 +30,12 @@
                 <td>@postTitle.Title</td>
                 <td>@postTitle.Author</td>
                 <td>@postTitle.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@postTitle.LikeCount</td>
+                <td>
+                    <button class="btn btn-sm @(postTitle.IsLiked ? "btn-success" : "btn-outline-secondary")"
+                            @onclick='() => HandleLike(postTitle)'>
+                        👍 @postTitle.LikeCount
+                    </button>
+                </td>
                 <td>@postTitle.ReplyCount</td>
                 <td>
                     <a href="/posts/detail/@(postTitle.PostId)" class="btn btn-primary btn-sm active">Détails</a> |
@@ -42,20 +49,27 @@
 
 @code {
     private List<PostTitle?>? _postTitles;
+    private int? _userId;
 
     protected override async Task OnInitializedAsync()
     {
-        var queryResult = await PostRepository.ExecuteAsync(new ListeTitlePostsQuery());
+        var (userId, _) = await AuthRepository.GetUser();
+        _userId = userId;
 
-        if (queryResult.IsFailure)
+        if (_userId.HasValue)
         {
-            Logger.LogError($"Erreur : {queryResult.ErrorMessage}");
-            return;
-        }
+            var queryResult = await PostRepository.ExecuteAsync(new ListeTitlePostsQuery(_userId.Value));
 
-        _postTitles = queryResult.Content.ToList();
+            if (queryResult.IsFailure)
+            {
+                Logger.LogError($"Erreur : {queryResult.ErrorMessage}");
+                return;
+            }
+
+            _postTitles = queryResult.Content.ToList();
+        }
     }
-    
+
     public async Task OnDelete(PostTitle post)
     {
         _postTitles!.Remove(post);
@@ -64,5 +78,23 @@
 
         if (result.IsFailure)
             Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+    }
+
+    private async Task HandleLike(PostTitle post)
+    {
+        if (_userId.HasValue)
+        {
+            var command = new LikeCommand(_userId.Value, post.PostId, "Post");
+            var result = await LikeRepository.ExecuteAsync(command);
+            if (result.IsSuccess)
+            {
+                post.IsLiked = !post.IsLiked;
+                post.LikeCount += post.IsLiked ? 1 : -1;
+            }
+            else
+            {
+                Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            }
+        }
     }
 }
