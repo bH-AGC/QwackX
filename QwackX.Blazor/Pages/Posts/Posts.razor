@@ -29,7 +29,7 @@
                 <th scope="row">@postTitle.PostId</th>
                 <td>@postTitle.Title</td>
                 <td>@postTitle.Author</td>
-                <td>@postTitle.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@GetTimeElapsed(postTitle.CreatedAt)</td>
                 <td>
                     <button class="btn btn-sm @(postTitle.IsLiked ? "btn-success" : "btn-outline-secondary")"
                             @onclick='() => HandleLike(postTitle)'>
@@ -96,5 +96,22 @@
                 Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
             }
         }
+    }
+    
+    private string GetTimeElapsed(DateTime createdAt)
+    {
+        var localCreatedAt = createdAt.ToLocalTime();
+        var elapsed = DateTime.Now - localCreatedAt;
+
+        if (elapsed.TotalSeconds < 60)
+            return "à l'instant";
+        if (elapsed.TotalMinutes < 60)
+            return $"Il y a {elapsed.Minutes} minute{(elapsed.Minutes > 1 ? "s" : "")}";
+        if (elapsed.TotalHours < 24)
+            return $"Il y a {elapsed.Hours} heure{(elapsed.Hours > 1 ? "s" : "")}";
+        if (elapsed.TotalDays < 7)
+            return $"Il y a {elapsed.Days} jour{(elapsed.Days > 1 ? "s" : "")}";
+    
+        return localCreatedAt.ToString("dd/MM/yyyy HH:mm");
     }
 }

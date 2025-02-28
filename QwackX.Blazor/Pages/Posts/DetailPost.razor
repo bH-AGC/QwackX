@@ -38,7 +38,7 @@ else
             </button>
             <span class="icon view-icon">👁️ 1269</span>
             <span class="icon comment-icon">💬 @_replies.Count()</span>
-            <span class="icon time-icon">⏳ Il y a 11 heures</span>
+            <span class="icon time-icon">⏳ @GetTimeElapsed(_post.CreatedAt)</span>
         </div>
     </div>
 
@@ -66,7 +66,7 @@ else
                         <button class="icon like-icon @( reply.IsLiked ? "liked" : "" )" @onclick='() => HandleLike(reply.ReplyId, "Reply")'>
                             👍 @reply.LikeCount
                         </button>
-                        <span class="icon time-icon">⏳ Il y a 11 heures</span>
+                        <span class="icon time-icon">⏳ @GetTimeElapsed(reply.CreatedAt)</span>
                     </div>
                 </div>
             }
@@ -75,6 +75,15 @@ else
         {
             <p>Aucune réponse pour l’instant.</p>
         }
+    </div>
+
+    <!-- Formulaire de réponse -->
+    <div class="reply-form">
+        <h3>Répondre</h3>
+        <EditForm Model="_replyForm" OnValidSubmit="HandleReplySubmit">
+            <InputTextArea @bind-Value="_replyForm.Content" class="form-control" placeholder="Votre réponse..." />
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </EditForm>
     </div>
 }
 
@@ -86,6 +95,7 @@ else
     private Post? _post;
     private IEnumerable<Reply?> _replies = [];
     private States _state = States.Loading;
+    private AddReplyForm _replyForm = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,16 +108,7 @@ else
             if (postResult.IsSuccess)
             {
                 _post = postResult.Content;
-
-                var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId, _userId.Value));
-                if (repliesResult.IsSuccess)
-                {
-                    _replies = repliesResult.Content ?? [];
-                }
-                else
-                {
-                    Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
-                }
+                await LoadReplies();
             }
             else
             {
@@ -116,6 +117,19 @@ else
         }
 
         _state = States.Completed;
+    }
+
+    private async Task LoadReplies()
+    {
+        var repliesResult = await ReplyRepository.ExecuteAsync(new ListPostRepliesQuery(PostId, _userId ?? 0));
+        if (repliesResult.IsSuccess)
+        {
+            _replies = repliesResult.Content ?? [];
+        }
+        else
+        {
+            Logger.LogError($"Error : {repliesResult.Exception}, {repliesResult.ErrorMessage}");
+        }
     }
 
     private async Task HandleLike(int entityId, string entityType)
@@ -147,4 +161,40 @@ else
             }
         }
     }
+
+    private async Task HandleReplySubmit()
+    {
+        if (!string.IsNullOrWhiteSpace(_replyForm.Content) && _userId.HasValue)
+        {
+            var result = await ReplyRepository.ExecuteAsync(new AddReplyCommand(PostId, _userId.Value, _replyForm.Content));
+            if (result.IsSuccess)
+            {
+                _replyForm.Content = string.Empty;
+                await LoadReplies();
+            }
+            else
+            {
+                Logger.LogError($"Error : {result.Exception}, {result.ErrorMessage}");
+            }
+        }
+    }
+    
+    private string GetTimeElapsed(DateTime createdAt)
+    {
+        var localCreatedAt = createdAt.ToLocalTime();
+        var elapsed = DateTime.Now - localCreatedAt;
+
+        if (elapsed.TotalSeconds < 60)
+            return "à l'instant";
+        if (elapsed.TotalMinutes < 60)
+            return $"Il y a {elapsed.Minutes} minute{(elapsed.Minutes > 1 ? "s" : "")}";
+        if (elapsed.TotalHours < 24)
+            return $"Il y a {elapsed.Hours} heure{(elapsed.Hours > 1 ? "s" : "")}";
+        if (elapsed.TotalDays < 7)
+            return $"Il y a {elapsed.Days} jour{(elapsed.Days > 1 ? "s" : "")}";
+    
+        return localCreatedAt.ToString("dd/MM/yyyy HH:mm");
+    }
+
+
 }
