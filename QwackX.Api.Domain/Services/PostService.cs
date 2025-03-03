@@ -73,7 +73,7 @@ namespace QwackX.Api.Domain.Services
                 return Result.Failure($"Code de retour : {ex.Message}");
             }
         }
-
+        
         public Result Execute(DeletePostCommand command)
         {
             try

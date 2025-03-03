@@ -7,7 +7,6 @@ using QwackX.Api.Controllers;
 
 namespace QwackX.Api.Infrastructure
 {
-
     public class TokenService : ITokenRepository
     {
         private readonly IConfiguration _configuration;

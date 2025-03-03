@@ -9,6 +9,8 @@ namespace QwackX.Api.Domain.Entities
         public int UserId { get; set; }
         public int LikeCount { get; set; }
         public int ReplyCount { get; set; }
+        
+        public int ViewCount { get; set; }
         public bool IsLiked { get; set; }
     }
 }

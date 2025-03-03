@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using CommandQuerySeparation.Commands;
 
 namespace QwackX.Api.Domain.Commands;

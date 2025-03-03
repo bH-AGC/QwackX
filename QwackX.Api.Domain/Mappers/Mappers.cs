@@ -28,6 +28,7 @@ internal static partial class Mappers
             Author = (string)record["Username"],
             LikeCount = (int)record["LikeCount"],
             ReplyCount = (int)record["ReplyCount"],
+            ViewCount = (int)record["ViewCount"],
             IsLiked = (int)record["IsLiked"] == 1
         };
     }

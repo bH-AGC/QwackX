@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using QwackX.Api.Domain.Repositories;
 using QwackX.Api.Domain.Services;
 using QwackX.Api.Infrastructure;
+using QwackX.Api.Services;
 
 string policyName = "PoliceCorse";
 
@@ -71,7 +72,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
 builder.Services.AddScoped<DbConnection>(sp => new SqlConnection(configuration.GetConnectionString("Database")));
 builder.Services.AddScoped<ITokenRepository, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthService>();
@@ -79,6 +79,16 @@ builder.Services.AddScoped<IUserRepository, UserService>();
 builder.Services.AddScoped<IPostRepository, PostService>();
 builder.Services.AddScoped<IReplyRepository, ReplyService>();
 builder.Services.AddScoped<ILikeRepository, LikeService>();
+
+builder.Services.AddScoped<IPostViewRepository, PostViewService>();
+builder.Services.AddSingleton<PostViewCache>();
+
+// Enregistrer PostViewSyncService comme Singleton standard
+builder.Services.AddSingleton<PostViewSyncService>();
+
+// Enregistrer PostViewSyncService comme HostedService (pour qu'il démarre avec l'application)
+builder.Services.AddHostedService(provider => provider.GetRequiredService<PostViewSyncService>());
+
 
 WebApplication app = builder.Build();
 

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QwackX.Api.Domain.Commands;
 using QwackX.Api.Domain.Repositories;
-using QwackX.Api.Models.Dtos;
 
 namespace QwackX.Api.Controllers;
 

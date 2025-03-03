@@ -1,7 +1,7 @@
 DROP PROCEDURE [dbo].[ListPostsTitles]
 GO
 CREATE PROCEDURE [dbo].[ListPostsTitles]
-    @UserId INT
+@UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -9,6 +9,7 @@ BEGIN
     SELECT p.[Id], p.[Title], p.[CreatedAt], u.[Username], p.[UserId],
            (SELECT COUNT(*) FROM [dbo].[Likes] WHERE [EntityType] = 'Post' AND [EntityId] = p.[Id] AND [IsDisliked] = 0) AS [LikeCount],
            (SELECT COUNT(*) FROM [dbo].[Replies] WHERE [PostId] = p.[Id] AND [IsDeleted] = 0) AS [ReplyCount],
+           (SELECT COUNT(*) FROM [dbo].[PostViews] WHERE [PostId] = p.[Id]) AS [ViewCount],
            CASE
                WHEN EXISTS (SELECT 1 FROM [dbo].[Likes] WHERE [EntityType] = 'Post' AND [EntityId] = p.[Id] AND [UserId] = @UserId AND [IsDisliked] = 0)
                    THEN 1

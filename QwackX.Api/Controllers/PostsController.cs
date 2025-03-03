@@ -74,7 +74,7 @@ namespace QwackX.Api.Controllers
 
             if (result.IsFailure)
                 return  BadRequest($"Erreur lors de l'exécution de la requête: {result.ErrorMessage}, : {result.Exception}");
-            ;
+            
             return NoContent();
         }
     }
