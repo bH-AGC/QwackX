@@ -25,7 +25,7 @@ namespace QwackX.Api.Domain.Services
                 }
                 else
                 {
-                    return Result<IEnumerable<Reply?>>.Failure("No Replies Found");
+                    return Result<IEnumerable<Reply?>>.Success(Enumerable.Empty<Reply>()); 
                 }
             }
             catch (Exception ex)

@@ -25,7 +25,7 @@ public class PostViewSyncService : BackgroundService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
                 await SyncToDatabase();
             }
         }

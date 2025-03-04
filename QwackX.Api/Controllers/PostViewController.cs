@@ -27,7 +27,7 @@ namespace QwackX.Api.Controllers
                 return BadRequest("PostId ou UserId invalide.");
             }
 
-            _postViewCache.AddView(dto.PostId, dto.UserId, dto.ViewedAt);
+            _postViewCache.AddView(dto.PostId, dto.UserId);
             return NoContent();
         }
 

@@ -1,8 +1,10 @@
 @page "/posts"
+@inject NavigationManager Navigation
 @inject ILogger<Posts> Logger
 @inject IPostRepository PostRepository
 @inject IAuthRepository AuthRepository
 @inject ILikeRepository LikeRepository
+@inject IPostViewRepository PostViewRepository
 
 <h3>Titres des posts</h3>
 
@@ -16,7 +18,8 @@
             <th scope="col">Id</th>
             <th scope="col">Titre</th>
             <th scope="col">Auteur</th>
-            <th scope="col">Créé le</th>
+            <th scope="col">Créé il y a</th>
+            <th scope="col">Vues</th>
             <th scope="col">J'aime</th>
             <th scope="col">Réponses</th>
             <th scope="col">Actions</th>
@@ -30,6 +33,7 @@
                 <td>@postTitle.Title</td>
                 <td>@postTitle.Author</td>
                 <td>@GetTimeElapsed(postTitle.CreatedAt)</td>
+                <td>@postTitle.ViewCount</td>
                 <td>
                     <button class="btn btn-sm @(postTitle.IsLiked ? "btn-success" : "btn-outline-secondary")"
                             @onclick='() => HandleLike(postTitle)'>
@@ -38,7 +42,9 @@
                 </td>
                 <td>@postTitle.ReplyCount</td>
                 <td>
-                    <a href="/posts/detail/@(postTitle.PostId)" class="btn btn-primary btn-sm active">Détails</a> |
+                    <a href="#" @onclick="() => HandlePostClick(postTitle.PostId)" class="btn btn-primary btn-sm active">
+                        Détails
+                    </a> |
                     <a @onclick="() => OnDelete(postTitle)" class="btn btn-danger btn-sm active">Supprimer</a>
                 </td>
             </tr>
@@ -70,6 +76,21 @@
         }
     }
 
+    private async Task HandlePostClick(int postId)
+    {
+        if (_userId.HasValue)
+        {
+            var result = await PostViewRepository.ExecuteAsync(new IncrementPostViewsCommand(postId, _userId.Value));
+
+            if (result.IsFailure)
+            {
+                Logger.LogError($"Erreur lors de l'incrémentation des vues : {result.Exception}, {result.ErrorMessage}");
+            }
+        }
+
+        Navigation.NavigateTo($"/posts/detail/{postId}");
+    }
+    
     public async Task OnDelete(PostTitle post)
     {
         _postTitles!.Remove(post);
@@ -97,7 +118,7 @@
             }
         }
     }
-    
+
     private string GetTimeElapsed(DateTime createdAt)
     {
         var localCreatedAt = createdAt.ToLocalTime();
@@ -111,7 +132,7 @@
             return $"Il y a {elapsed.Hours} heure{(elapsed.Hours > 1 ? "s" : "")}";
         if (elapsed.TotalDays < 7)
             return $"Il y a {elapsed.Days} jour{(elapsed.Days > 1 ? "s" : "")}";
-    
+
         return localCreatedAt.ToString("dd/MM/yyyy HH:mm");
     }
 }

@@ -9,4 +9,5 @@ public class Post
     public int UserId { get; set; }
     public int LikeCount { get; set; }
     public bool IsLiked { get; set; }
+    public int ViewCount { get; set; }
 }

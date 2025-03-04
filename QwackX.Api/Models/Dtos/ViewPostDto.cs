@@ -9,8 +9,5 @@ namespace QwackX.Api.Models.Dtos
         
         [Required]
         public int UserId { get; set; }
-        
-        [Required]
-        public DateTime ViewedAt { get; set; }
     }
 }

@@ -36,7 +36,7 @@ else
             <button class="icon like-icon @( _post.IsLiked ? "liked" : "" )" @onclick='() => HandleLike(_post.PostId, "Post")'>
                 👍 @_post.LikeCount
             </button>
-            <span class="icon view-icon">👁️ 1269</span>
+            <span class="icon view-icon">👁️ @( _post.ViewCount == 0 ? 1 : _post.ViewCount )</span>
             <span class="icon comment-icon">💬 @_replies.Count()</span>
             <span class="icon time-icon">⏳ @GetTimeElapsed(_post.CreatedAt)</span>
         </div>

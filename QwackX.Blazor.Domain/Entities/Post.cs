@@ -11,12 +11,13 @@ namespace QwackX.Blazor.Domain.Entities
         public string Author { get; set; }
         public int UserId { get; set; }
         public int LikeCount { get; set; }
-        
         public bool IsLiked { get; set; }
+        
+        public int ViewCount { get; set; }
 
         [JsonConstructor]
         internal Post(int postId, string title, string description, DateTime createdAt, string author, int userId,
-            int likeCount, bool isLiked)
+            int likeCount, bool isLiked, int viewCount)
         {
             PostId = postId;
             Title = title;
@@ -26,6 +27,7 @@ namespace QwackX.Blazor.Domain.Entities
             UserId = userId;
             LikeCount = likeCount;
             IsLiked = isLiked;
+            ViewCount = viewCount;
         }
     }
 }
