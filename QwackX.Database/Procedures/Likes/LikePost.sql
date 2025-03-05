@@ -1,4 +1,6 @@
-CREATE PROCEDURE [dbo].[LikePost]
+DROP PROCEDURE [AppUserSchema].[LikePost]
+GO
+CREATE PROCEDURE [AppUserSchema].[LikePost]
     @UserId INT,
     @EntityId INT,
     @EntityType NVARCHAR(50)

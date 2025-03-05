@@ -1,6 +1,6 @@
-DROP TYPE IF EXISTS dbo.PostViewType;
+DROP TYPE IF EXISTS [dbo].PostViewType;
 GO
-CREATE TYPE dbo.PostViewType AS TABLE
+CREATE TYPE [dbo].PostViewType AS TABLE
 (
     PostId INT,
     UserId INT,

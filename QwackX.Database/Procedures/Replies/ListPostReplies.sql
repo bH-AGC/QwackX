@@ -1,6 +1,6 @@
 DROP PROCEDURE [dbo].[ListPostReplies]
 GO
-CREATE PROCEDURE [dbo].[ListPostReplies]
+CREATE PROCEDURE [AppUserSchema].[ListPostReplies]
     @PostId INT,
     @UserId INT
 AS
@@ -15,6 +15,6 @@ BEGIN
                ELSE 0
                END AS [IsLiked]
     FROM [dbo].[Replies] r
-             JOIN [AppUserSchema].[Users] u ON r.[UserId] = u.[Id]
+             JOIN [dbo].[Users] u ON r.[UserId] = u.[Id]
     WHERE r.[PostId] = @PostId AND r.[IsDeleted] = 0;
 END;

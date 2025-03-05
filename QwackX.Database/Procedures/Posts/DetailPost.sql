@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS [dbo].[DetailPost];
 GO
-CREATE PROCEDURE [dbo].[DetailPost]
+CREATE PROCEDURE [AppUserSchema].[DetailPost]
     @PostId INT,
     @UserId INT
 AS
@@ -43,6 +43,6 @@ BEGIN
             ELSE 0
             END AS [HasViewed]
     FROM [dbo].[Posts] p
-             JOIN [AppUserSchema].[Users] u ON p.[UserId] = u.[Id]
+             JOIN [dbo].[Users] u ON p.[UserId] = u.[Id]
     WHERE p.[Id] = @PostId AND p.[IsDeleted] = 0;
 END;

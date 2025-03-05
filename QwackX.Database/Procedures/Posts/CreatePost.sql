@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[CreatePost]
+CREATE PROCEDURE [AppUserSchema].[CreatePost]
     @UserId INT,
     @Title NVARCHAR(255),
     @Description NVARCHAR(MAX)

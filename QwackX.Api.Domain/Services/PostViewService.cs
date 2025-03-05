@@ -20,7 +20,7 @@ public class PostViewService : BaseService, IPostViewRepository
         
             try
             {
-                using var sqlCommand = CreateSqlCommand("[dbo].[PostsViewsBulkInsert]", postViewTable);
+                using var sqlCommand = CreateSqlCommand("[AppUserSchema].[PostsViewsBulkInsert]", postViewTable);
 
                 // Ajout du paramètre de sortie pour récupérer le nombre de lignes affectées
                 var rowsAffectedParameter = new SqlParameter

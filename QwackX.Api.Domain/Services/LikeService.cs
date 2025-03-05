@@ -14,7 +14,7 @@ public class LikeService : BaseService, ILikeRepository
     {
         try
         {
-            int responseMessage = DbConnection.ExecuteNonQuery("[dbo].[Like" + command.EntityType + "]", true, command);
+            int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[Like" + command.EntityType + "]", true, command);
 
             if (responseMessage == 1)
             {

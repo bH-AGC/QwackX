@@ -4,5 +4,5 @@ CREATE TABLE [dbo].[PostViews] (
     ViewedAt DATETIME DEFAULT GETDATE(),
     PRIMARY KEY (PostId, UserId),
     FOREIGN KEY (PostId) REFERENCES [dbo].[Posts] (Id),
-    FOREIGN KEY (UserId) REFERENCES [AppUserSchema].[Users] (Id)
+    FOREIGN KEY (UserId) REFERENCES [dbo].[Users] (Id)
 );

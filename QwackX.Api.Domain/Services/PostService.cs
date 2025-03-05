@@ -17,7 +17,7 @@ namespace QwackX.Api.Domain.Services
         {
             try
             {
-                IEnumerable<PostTitle?> postTitles = DbConnection.ExecuteReader("[dbo].[ListPostsTitles]", dr => dr.ToPostTitle(), true, query).ToList();
+                IEnumerable<PostTitle?> postTitles = DbConnection.ExecuteReader("[AppUserSchema].[ListPostsTitles]", dr => dr.ToPostTitle(), true, query).ToList();
                 
                 if (postTitles.Any())
                 {
@@ -38,7 +38,7 @@ namespace QwackX.Api.Domain.Services
         {
             try
             {
-                Post? post = DbConnection.ExecuteReader("[dbo].[Detailpost]", dr => dr.ToPost(), true, query).SingleOrDefault();
+                Post? post = DbConnection.ExecuteReader("[AppUserSchema].[Detailpost]", dr => dr.ToPost(), true, query).SingleOrDefault();
 
                 if (post is null)
                 {
@@ -59,7 +59,7 @@ namespace QwackX.Api.Domain.Services
         {
             try
             {
-                int responseMessage = DbConnection.ExecuteNonQuery("[dbo].[CreatePost]", true, command);
+                int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[CreatePost]", true, command);
 
                 if (responseMessage == 1)
                 {
@@ -78,7 +78,7 @@ namespace QwackX.Api.Domain.Services
         {
             try
             {
-                int responseMessage = DbConnection.ExecuteNonQuery("[dbo].[DeletePost]", true, command);
+                int responseMessage = DbConnection.ExecuteNonQuery("[AppUserSchema].[DeletePost]", true, command);
 
                 if (responseMessage == 1)
                 {

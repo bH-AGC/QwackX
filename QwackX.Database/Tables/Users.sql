@@ -1,4 +1,4 @@
-CREATE TABLE [AppUserSchema].[Users] (
+CREATE TABLE [dbo].[Users] (
     [Id] INT NOT NULL IDENTITY,
     [Username] NVARCHAR(50) UNIQUE NOT NULL,
     [Email] NVARCHAR(255) UNIQUE NOT NULL,

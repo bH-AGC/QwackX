@@ -6,6 +6,6 @@ CREATE TABLE [dbo].[Likes] (
     [IsDisliked] BIT NOT NULL DEFAULT 0,
     [CreatedAt] DATETIME DEFAULT GETDATE(),
     CONSTRAINT [PK_Likes] PRIMARY KEY ([Id]),
-    FOREIGN KEY ([UserId]) REFERENCES [AppUserSchema].[Users]([Id]) ON DELETE NO ACTION,
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]) ON DELETE NO ACTION,
 UNIQUE ([EntityType], [EntityId], [UserId])
 );

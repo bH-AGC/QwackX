@@ -1,6 +1,6 @@
 DROP PROCEDURE [dbo].[DeleteReply]
 GO
-CREATE PROCEDURE [dbo].[DeleteReply]
+CREATE PROCEDURE [AppUserSchema].[DeleteReply]
     @ReplyId INT
 AS
 BEGIN

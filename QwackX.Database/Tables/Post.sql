@@ -7,5 +7,5 @@ CREATE TABLE [dbo].[Posts] (
     [CreatedAt] DATETIME DEFAULT GETDATE(),
     [ViewCount] INT DEFAULT 0,
     CONSTRAINT [PK_Posts] PRIMARY KEY ([Id]),
-    FOREIGN KEY ([UserId]) REFERENCES [AppUserSchema].[Users]([Id]) ON DELETE CASCADE
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]) ON DELETE CASCADE
 );

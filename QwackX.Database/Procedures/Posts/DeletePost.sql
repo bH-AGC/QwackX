@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[DeletePost]
+CREATE PROCEDURE [AppUserSchema].[DeletePost]
     @PostId INT
 AS
 BEGIN

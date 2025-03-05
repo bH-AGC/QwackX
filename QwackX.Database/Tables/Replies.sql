@@ -7,5 +7,5 @@ CREATE TABLE [dbo].[Replies] (
     [CreatedAt] DATETIME DEFAULT GETDATE(),
     CONSTRAINT [PK_Replies] PRIMARY KEY ([Id]),
     FOREIGN KEY ([PostId]) REFERENCES [dbo].[Posts]([Id]) ON DELETE CASCADE,
-    FOREIGN KEY ([UserId]) REFERENCES [AppUserSchema].[Users]([Id]) ON DELETE NO ACTION
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]) ON DELETE NO ACTION
 );

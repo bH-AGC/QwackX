@@ -7,10 +7,10 @@ CREATE PROCEDURE [AppUserSchema].[EditUser]
     @Password NVARCHAR(255)
 AS
 BEGIN 
-    UPDATE [AppUserSchema].[Users] 
+    UPDATE [dbo].[Users] 
     SET 
        [Username] = @Username, 
        [Email] = @Email, 
-       [PasswordHash] = dbo.CreatePasswd(@Password) 
+       [PasswordHash] = [dbo].CreatePasswd(@Password) 
     WHERE Id = @UserId; 
 END

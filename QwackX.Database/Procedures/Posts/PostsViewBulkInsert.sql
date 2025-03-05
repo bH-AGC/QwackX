@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS [dbo].[PostsViewsBulkInsert];
 GO
-CREATE PROCEDURE [dbo].[PostsViewsBulkInsert]
-    @PostViews dbo.PostViewType READONLY,
+CREATE PROCEDURE [AppUserSchema].[PostsViewsBulkInsert]
+    @PostViews [dbo].PostViewType READONLY,
     @RowsAffected INT OUTPUT -- Paramètre de sortie
 AS
 BEGIN
@@ -32,7 +32,7 @@ BEGIN
             END
 
         -- MERGE : Met à jour ou insère les vues dans la table PostViews
-        MERGE INTO dbo.PostViews AS target
+        MERGE INTO [dbo].[PostViews] AS target
         USING (SELECT DISTINCT PostId, UserId, ViewedAt FROM @PostViews) AS source
         ON target.PostId = source.PostId AND target.UserId = source.UserId
         WHEN MATCHED THEN
@@ -44,7 +44,7 @@ BEGIN
         -- Mettre à jour le ViewCount dans dbo.Posts après l'insertion/mise à jour de PostViews
         UPDATE p
         SET p.ViewCount = p.ViewCount + 1
-        FROM dbo.Posts p
+        FROM [dbo].[Posts] p
                  INNER JOIN @PostViews pv ON p.Id = pv.PostId;
 
         -- Mettre à jour le nombre de lignes affectées

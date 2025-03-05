@@ -1,6 +1,6 @@
 DROP PROCEDURE [dbo].[ListPostsTitles]
 GO
-CREATE PROCEDURE [dbo].[ListPostsTitles]
+CREATE PROCEDURE [AppUserSchema].[ListPostsTitles]
 @UserId INT
 AS
 BEGIN
@@ -15,7 +15,7 @@ BEGIN
                ELSE 0
                END AS [IsLiked]
     FROM [dbo].[Posts] p
-             JOIN [AppUserSchema].[Users] u ON p.[UserId] = u.[Id]
+             JOIN [dbo].[Users] u ON p.[UserId] = u.[Id]
     WHERE p.[IsDeleted] = 0
     ORDER BY p.[CreatedAt] DESC;
 END;

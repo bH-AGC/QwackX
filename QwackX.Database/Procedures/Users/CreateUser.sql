@@ -13,8 +13,8 @@ BEGIN
                 RETURN;
             END
 
-        INSERT INTO AppUserSchema.Users (Username, Email, PasswordHash)
-        VALUES (@Username, @Email, dbo.CreatePasswd(@Password));
+        INSERT INTO [dbo].[Users] (Username, Email, PasswordHash)
+        VALUES (@Username, @Email, [dbo].CreatePasswd(@Password));
     END TRY
     BEGIN CATCH
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();

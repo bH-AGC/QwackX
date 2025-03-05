@@ -25,11 +25,11 @@ BEGIN
                 RETURN;
             END
 
-        INSERT INTO AppUserSchema.Users (Username, Email, PasswordHash)
+        INSERT INTO [dbo].[Users] (Username, Email, PasswordHash)
         VALUES (@Username, @Email, dbo.CreatePasswd(@Password));
 
         SELECT Id, Username, Email, CreatedAt
-        FROM AppUserSchema.Users
+        FROM [dbo].[Users]
         WHERE Email = @Email;
     END TRY
     BEGIN CATCH
