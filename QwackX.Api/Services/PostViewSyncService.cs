@@ -86,36 +86,3 @@ public class PostViewSyncService : BackgroundService
         await base.StopAsync(cancellationToken);
     }
 }
-
-    
-// foreach (var userId in userIds)
-// {
-//     var command = new IncrementViewsPosts(postId, userId);
-//     var result = _postViewRepository.Execute(command);  // S'assurer que la méthode Execute() gère correctement les erreurs.
-//
-//     if (result.IsFailure)
-//     {
-//         _logger.LogError($"Erreur lors de l'ajout de la vue pour PostId {postId} et UserId {userId}: {result.ErrorMessage}");
-//     }
-//     else
-//     {
-//         _logger.LogInformation($"Vue ajoutée pour PostId {postId} et UserId {userId}");
-//     }
-// }
-    
-// private DataTable CreatePostViewDataTable(List<PostView> postViews)
-// {
-//     var dataTable = new DataTable();
-//     dataTable.Columns.Add("PostId", typeof(int));
-//     dataTable.Columns.Add("UserId", typeof(int));
-//
-//     foreach (var postView in postViews)
-//     {
-//         var row = dataTable.NewRow();
-//         row["PostId"] = postView.PostId;
-//         row["UserId"] = postView.UserId;
-//         dataTable.Rows.Add(row);
-//     }
-//
-//     return dataTable;
-// }

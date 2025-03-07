@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using QwackX.Api.Controllers;
+using ToolsSecurity;
 
 namespace QwackX.Api.Infrastructure
 {
@@ -11,11 +12,13 @@ namespace QwackX.Api.Infrastructure
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly SecurityInfo _securityInfo;
 
-        public TokenService(IConfiguration configuration, IHttpContextAccessor httpContext)
+        public TokenService(IConfiguration configuration, IHttpContextAccessor httpContext, SecurityInfo securityInfo)
         {
             _configuration = configuration;
             _httpContext = httpContext;
+            _securityInfo = securityInfo;
         }
 
         public UserDto? User
@@ -38,7 +41,7 @@ namespace QwackX.Api.Infrastructure
             try
             {
                 SymmetricSecurityKey key =
-                    new SymmetricSecurityKey(Encoding.Default.GetBytes(_configuration["JwtSettings:SecretKey"]));
+                    new SymmetricSecurityKey(Encoding.Default.GetBytes(_securityInfo.SecretKey));
                 SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(

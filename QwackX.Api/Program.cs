@@ -1,13 +1,17 @@
 using Microsoft.Data.SqlClient;
 using System.Data.Common;
+using System.Resources;
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using QwackX.Api.Domain.Repositories;
 using QwackX.Api.Domain.Services;
 using QwackX.Api.Infrastructure;
+using QwackX.Api.Properties;
 using QwackX.Api.Services;
+using ToolsSecurity;
 
 string policyName = "PoliceCorse";
 
@@ -25,6 +29,19 @@ builder.Services.AddCors(options => options.AddPolicy(policyName,
 
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<IRsaService>(sp => new RsaService(Resources.keys));
+
+builder.Services.AddSingleton<SecurityInfo>(sp =>
+{
+    var rsaService = sp.GetRequiredService<IRsaService>();
+    var securityInfoService = SecurityInfoService.Create(rsaService);
+    return securityInfoService.SecurityInfo;
+});
+
+SecurityInfo securityInfo = builder.Services.BuildServiceProvider().GetRequiredService<SecurityInfo>();
+
+builder.Services.AddScoped<DbConnection>(sp => new SqlConnection(string.Format(configuration.GetConnectionString("Database")!, securityInfo.Login, securityInfo.Passwd)));
+
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -37,11 +54,9 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = configuration["Issuer"],
             ValidAudience = configuration["Audience"],
-            IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.Default.GetBytes(configuration["JwtSettings:SecretKey"])),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(securityInfo.SecretKey)),
         };
     });
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
@@ -72,7 +87,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddScoped<DbConnection>(sp => new SqlConnection(configuration.GetConnectionString("Database")));
+
 builder.Services.AddScoped<ITokenRepository, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
