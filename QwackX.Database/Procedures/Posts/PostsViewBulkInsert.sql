@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS [dbo].[PostsViewsBulkInsert];
+DROP PROCEDURE IF EXISTS [AppUserSchema].[PostsViewsBulkInsert];
 GO
 CREATE PROCEDURE [AppUserSchema].[PostsViewsBulkInsert]
-    @PostViews [dbo].PostViewType READONLY,
+    @PostViews [AppUserSchema].PostViewType READONLY,
     @RowsAffected INT OUTPUT -- Paramètre de sortie
 AS
 BEGIN

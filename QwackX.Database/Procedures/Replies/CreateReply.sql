@@ -1,4 +1,4 @@
-DROP PROCEDURE [dbo].[CreateReply]
+DROP PROCEDURE [AppUserSchema].[CreateReply]
 GO
 CREATE PROCEDURE [AppUserSchema].[CreateReply]
     @PostId INT,

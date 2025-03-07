@@ -70,7 +70,7 @@ public class PostViewService : BaseService, IPostViewRepository
             ParameterName = "@PostViews",
             SqlDbType = SqlDbType.Structured,
             Value = postViewTable,
-            TypeName = "dbo.PostViewType"
+            TypeName = "[AppUserSchema].PostViewType"
         };
 
         sqlCommand.Parameters.Add(parameter);

@@ -17,7 +17,7 @@ public class PostService : BaseService, IPostRepository
         try
         {
             await AuthRepository.SetAuthorizationHeader();
-            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync("api/posts/titles"))
+            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/posts/titles?userid={query.UserId}"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
                 {
@@ -48,7 +48,7 @@ public class PostService : BaseService, IPostRepository
         try
         {
             await AuthRepository.SetAuthorizationHeader();
-            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/posts/{query.PostId}"))
+            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/posts/{query.PostId}?userid={query.UserId}"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
                 {

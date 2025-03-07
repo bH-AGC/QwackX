@@ -29,7 +29,7 @@ internal static partial class Mappers
             LikeCount = (int)record["LikeCount"],
             ReplyCount = (int)record["ReplyCount"],
             ViewCount = (int)record["ViewCount"],
-            IsLiked = (int)record["IsLiked"] == 1
+            IsLiked = Convert.ToBoolean(record["IsLiked"])
         };
     }
     
@@ -44,7 +44,7 @@ internal static partial class Mappers
             Author = (string)record["Username"],
             UserId = (int)record["UserId"],
             LikeCount = (int)record["LikeCount"],
-            IsLiked = (int)record["IsLiked"] == 1,
+            IsLiked = (bool)record["IsLiked"],
             ViewCount = (int)record["ViewCount"]
         };
     }
@@ -58,7 +58,7 @@ internal static partial class Mappers
             CreatedAt = (DateTime)record["CreatedAt"],
             Author = (string)record["Username"],
             LikeCount = (int)record["LikeCount"],
-            IsLiked = (int)record["IsLiked"] == 1
+            IsLiked = (bool)record["IsLiked"]
         };
     }
 }

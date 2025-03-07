@@ -12,22 +12,21 @@ namespace QwackX.Blazor.Domain.Entities
         public int UserId { get; set; }
         public int LikeCount { get; set; }
         public bool IsLiked { get; set; }
-        
         public int ViewCount { get; set; }
 
-        [JsonConstructor]
-        internal Post(int postId, string title, string description, DateTime createdAt, string author, int userId,
-            int likeCount, bool isLiked, int viewCount)
-        {
-            PostId = postId;
-            Title = title;
-            Description = description;
-            CreatedAt = createdAt;
-            Author = author;
-            UserId = userId;
-            LikeCount = likeCount;
-            IsLiked = isLiked;
-            ViewCount = viewCount;
-        }
+        // [JsonConstructor]
+        // internal Post(int postId, string title, string description, DateTime createdAt, string author, int userId,
+        //     int likeCount, bool isLiked, int viewCount)
+        // {
+        //     PostId = postId;
+        //     Title = title;
+        //     Description = description;
+        //     CreatedAt = createdAt;
+        //     Author = author;
+        //     UserId = userId;
+        //     LikeCount = likeCount;
+        //     IsLiked = isLiked;
+        //     ViewCount = viewCount;
+        // }
     }
 }

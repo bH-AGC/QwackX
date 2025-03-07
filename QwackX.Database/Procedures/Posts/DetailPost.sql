@@ -1,12 +1,10 @@
-DROP PROCEDURE IF EXISTS [dbo].[DetailPost];
+DROP PROCEDURE IF EXISTS [AppUserSchema].[DetailPost];
 GO
 CREATE PROCEDURE [AppUserSchema].[DetailPost]
     @PostId INT,
     @UserId INT
 AS
 BEGIN
-    SET NOCOUNT ON;
-
     SELECT
         p.[Id],
         p.[Title],
@@ -28,8 +26,8 @@ BEGIN
                            AND [EntityId] = p.[Id]
                            AND [UserId] = @UserId
                            AND [IsDisliked] = 0)
-                THEN 1
-            ELSE 0
+                THEN CONVERT(BIT, 1)
+            ELSE CONVERT(BIT, 0)
             END AS [IsLiked],
         -- Nombre de vues
         p.[ViewCount],

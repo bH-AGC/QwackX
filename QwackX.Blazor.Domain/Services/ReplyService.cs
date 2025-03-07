@@ -17,7 +17,7 @@ public class ReplyService : BaseService, IReplyRepository
         try
         {
             await AuthRepository.SetAuthorizationHeader();
-            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/replies/{query.PostId}"))
+            using (HttpResponseMessage responseMessage = await HttpClient.GetAsync($"api/replies/{query.PostId}?userid={query.UserId}"))
             {
                 if (!responseMessage.IsSuccessStatusCode)
                 {

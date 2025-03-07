@@ -46,6 +46,7 @@ namespace QwackX.Api.Domain.Services
                 }
                 else
                 {
+                    Console.WriteLine($"Post Retrieved - IsLiked: {post.IsLiked}");
                     return Result<Post?>.Success(post);
                 }
             }
