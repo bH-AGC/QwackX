@@ -8,12 +8,14 @@ using QwackX.Blazor.Domain.Commands;
 using QwackX.Blazor.Domain.Entities;
 using QwackX.Blazor.Domain.Queries;
 using QwackX.Blazor.Domain.Repositories;
+// using ToolSecurity;
 
 namespace QwackX.Blazor.Domain.Services
 {
     public class AuthService : IAuthRepository
     {
         private readonly ILocalStorageService _localStorage;
+        // private readonly IRsaRepository _rsaEncryption;
         public HttpClient HttpClient { get; }
         private const string UserIdKey = "userId";
         private const string UsernameKey = "username";
@@ -23,6 +25,7 @@ namespace QwackX.Blazor.Domain.Services
         {
             this._localStorage = localStorage;
             HttpClient = httpClientFactory.CreateClient("Default");
+            // _rsaEncryption = rsaEncryption;
         }
         
         public async Task<bool> IsAuthenticatedAsync()
@@ -67,11 +70,28 @@ namespace QwackX.Blazor.Domain.Services
             
             return Result.Failure($"Authentication Failed: Token is missing or invalid.");
         }
+        
+        // public string Encrypt(string plainText)
+        // {
+        //     // byte[] encryptedBytes = _rsaEncryption.Encrypt(plainText);
+        //     // return Convert.ToBase64String(encryptedBytes);
+        // }
+        
 
         public async Task<Result<User>> ExecuteAsync(LoginUserQuery query)
         {
             try
             {
+                string publicKey = await HttpClient.GetStringAsync("api/security/publickey");
+                
+                // RsaService rsa = new RsaService(Convert.FromBase64String(publicKey));
+                
+                // var encryptedPassword = Encrypt(query.Password);
+                // var encryptedEmail = Encrypt(query.Email);
+                //
+                // Console.WriteLine(encryptedPassword);
+                // Console.WriteLine(encryptedEmail);
+                
                 string jsonPayload = JsonSerializer.Serialize(query);
                 HttpContent httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 

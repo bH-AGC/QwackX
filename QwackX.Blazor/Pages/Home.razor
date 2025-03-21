@@ -8,6 +8,9 @@
     <h1 class="display-4 fw-bold">Bienvenue sur QwackX 🦆</h1>
     <p class="lead">Rejoignez notre communauté et participez aux discussions passionnantes !</p>
 
+    <!-- Image cliquable -->
+    <img src="image/canard.gif" alt="Canard" class="img-fluid mt-3" id="canardImage" />
+
     <div class="d-flex justify-content-center gap-3 mt-4">
         @if (isAuthenticated)
         {
@@ -38,12 +41,12 @@
 
 @code {
     private bool isAuthenticated;
-    
+
     protected override async Task OnInitializedAsync()
     {
         isAuthenticated = await AuthRepository.IsAuthenticatedAsync();
     }
-    
+
     private List<PostPreview> RecentPosts = new()
     {
         new PostPreview { Title = "Blazor vs React : Quel est le meilleur ?", Replies = 12 },

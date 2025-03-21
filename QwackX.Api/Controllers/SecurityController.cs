@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ToolsSecurity;
+using ToolSecurity;
 
 namespace QwackX.Api.Controllers
 {
@@ -7,17 +7,17 @@ namespace QwackX.Api.Controllers
     [ApiController]
     public class SecurityController : ControllerBase
     {
-        private readonly IRsaService _rsaService;
+        private readonly IRsaRepository _rsaRepository;
 
-        public SecurityController(IRsaService rsaService)
+        public SecurityController(IRsaRepository rsaRepository)
         {
-            _rsaService = rsaService;
+            _rsaRepository = rsaRepository;
         }
 
         [HttpGet("publickey")]
         public IActionResult GetPublicKey()
         {
-            string publicKey = Convert.ToBase64String(_rsaService.PublicKey);
+            string publicKey = Convert.ToBase64String(_rsaRepository.PublicKey);
             return Ok(publicKey);
         }
     }

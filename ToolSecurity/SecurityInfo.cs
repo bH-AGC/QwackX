@@ -1,4 +1,4 @@
-namespace ToolsSecurity
+namespace ToolSecurity
 {
     public class SecurityInfo
     {

@@ -9,7 +9,7 @@ using QwackX.Api.Domain.Services;
 using QwackX.Api.Infrastructure;
 using QwackX.Api.Properties;
 using QwackX.Api.Services;
-using ToolsSecurity;
+using ToolSecurity;
 
 string policyName = "PoliceCorse";
 
@@ -27,11 +27,11 @@ builder.Services.AddCors(options => options.AddPolicy(policyName,
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<IRsaService>(sp => new RsaService(Resources.keys));
+builder.Services.AddSingleton<IRsaRepository>(sp => new RsaService(Resources.keys));
 
 builder.Services.AddSingleton<SecurityInfo>(sp =>
 {
-    var rsaService = sp.GetRequiredService<IRsaService>();
+    var rsaService = sp.GetRequiredService<IRsaRepository>();
     var securityInfoService = SecurityInfoService.Create(rsaService);
     return securityInfoService.SecurityInfo;
 });

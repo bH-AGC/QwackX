@@ -16,7 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\QwackX.Api.Domain\QwackX.Api.Domain.csproj" />
-      <ProjectReference Include="..\QwackX.Security\QwackX.Security.csproj" />
+      <ProjectReference Include="..\ToolSecurity\ToolSecurity.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using QwackX.Api.Controllers;
-using ToolsSecurity;
+using ToolSecurity;
 
 namespace QwackX.Api.Infrastructure
 {

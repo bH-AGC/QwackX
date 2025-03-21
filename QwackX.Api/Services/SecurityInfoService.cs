@@ -1,6 +1,6 @@
 using System.Text.Json;
 using QwackX.Api.Properties;
-using ToolsSecurity;
+using ToolSecurity;
 
 public class SecurityInfoService
 {
@@ -11,9 +11,9 @@ public class SecurityInfoService
         SecurityInfo = securityInfo;
     }
     
-    public static SecurityInfoService Create(IRsaService rsaService)
+    public static SecurityInfoService Create(IRsaRepository rsaRepository)
     {
-        string json = rsaService.DecryptAsString(Resources.data);
+        string json = rsaRepository.DecryptAsString(Resources.data);
         var securityInfo = JsonSerializer.Deserialize<SecurityInfo>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
         return new SecurityInfoService(securityInfo);
     }

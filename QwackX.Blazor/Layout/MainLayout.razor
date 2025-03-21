@@ -1,8 +1,30 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
+@inject IJSRuntime JS
+
+<div class="page" @onclick="PlayAudioOnClick">
     <div class="sidebar">
         <NavMenu/>
     </div>
+
+    <!-- Musique sans contrôles et avec autoplay, mais contrôlée par JS -->
+    <audio id="backgroundMusic" loop>
+        <source src="audio/born-to-be-alive.mp3" type="audio/mp3" />
+        Votre navigateur ne prend pas en charge l'élément audio.
+    </audio>
+
+    <script>
+        function playAudio() {
+            var audio = document.getElementById('backgroundMusic');
+            if (audio) {
+                // Jouer l'audio si ce n'est pas déjà en cours
+                audio.play().catch((error) => {
+                    console.error('Erreur de lecture audio : ', error);
+                });
+            } else {
+                console.error('Audio element not found.');
+            }
+        }
+    </script>
 
     <main>
         <div class="top-row px-4">
@@ -14,3 +36,12 @@
         </article>
     </main>
 </div>
+
+@code {
+    private async Task PlayAudioOnClick()
+    {
+        // Appel JS pour jouer l'audio dès qu'il y a un clic sur la page
+        await JS.InvokeVoidAsync("playAudio");
+    }
+
+}

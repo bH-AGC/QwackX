@@ -1,9 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ToolsSecurity
+namespace ToolSecurity
 {
-    public class RsaService : IRsaService
+    public class RsaService : IRsaRepository
     {
         private readonly RSACryptoServiceProvider _provider;
 
